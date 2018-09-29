@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.4
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 29, 2018 at 06:34 PM
--- Server version: 10.1.28-MariaDB
--- PHP Version: 5.6.32
+-- Generation Time: Sep 29, 2018 at 11:28 PM
+-- Server version: 10.1.36-MariaDB
+-- PHP Version: 5.6.38
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -270,7 +270,8 @@ ALTER TABLE `registration_form`
 -- Indexes for table `subevent`
 --
 ALTER TABLE `subevent`
-  ADD PRIMARY KEY (`subevent_ID`,`event_ID`);
+  ADD PRIMARY KEY (`subevent_ID`,`event_ID`),
+  ADD KEY `event_ID` (`event_ID`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -384,6 +385,12 @@ ALTER TABLE `rate`
 --
 ALTER TABLE `registration_form`
   ADD CONSTRAINT `registration_form_ibfk_1` FOREIGN KEY (`event_ID`) REFERENCES `event` (`event_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `subevent`
+--
+ALTER TABLE `subevent`
+  ADD CONSTRAINT `subevent_ibfk_1` FOREIGN KEY (`event_ID`) REFERENCES `event` (`event_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
