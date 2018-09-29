@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 26, 2018 at 09:24 PM
--- Server version: 10.1.36-MariaDB
--- PHP Version: 5.6.38
+-- Generation Time: Sep 29, 2018 at 06:34 PM
+-- Server version: 10.1.28-MariaDB
+-- PHP Version: 5.6.32
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -30,16 +30,21 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `account` (
   `organizer_ID` int(6) NOT NULL,
-  `emailOrg` varchar(50) NOT NULL,
+  `emailOrg` varchar(50) CHARACTER SET latin1 COLLATE latin1_general_ci NOT NULL,
   `passwordOrg` varchar(255) NOT NULL,
   `isEmailconfirm` tinyint(4) NOT NULL,
   `token` varchar(30) NOT NULL,
-  `name_org` varchar(30) NOT NULL,
-  `gender_org` varchar(6) NOT NULL,
+  `name_org` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `gender_org` varchar(6) CHARACTER SET utf8 NOT NULL,
   `DOB_org` date NOT NULL
-  
-  
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `account`
+--
+
+INSERT INTO `account` (`organizer_ID`, `emailOrg`, `passwordOrg`, `isEmailconfirm`, `token`, `name_org`, `gender_org`, `DOB_org`) VALUES
+(10, 'marwa.salahi.790@gmail.com', '$2y$10$CMagsO/jV5nceOence4xYOP/cyTGvgZ4z8eSe4faCPwgk7Z0w7BXW', 1, '', 'مروة', 'ذكر', '1995-09-29');
 
 -- --------------------------------------------------------
 
@@ -50,13 +55,13 @@ CREATE TABLE `account` (
 CREATE TABLE `attendee` (
   `Attendee_ID` int(11) NOT NULL,
   `email_Att` varchar(30) NOT NULL,
-  `name_Att` varchar(30) NOT NULL,
+  `name_Att` varchar(30) CHARACTER SET utf8 NOT NULL,
   `phone_Att` int(10) NOT NULL,
   `DOB_Att` date DEFAULT NULL,
-  `gender_Att` varchar(6) DEFAULT NULL,
-  `eductional_Level` varchar(40) DEFAULT NULL,
-  `career_Att` varchar(30) DEFAULT NULL,
-  `nationality_Att` varchar(20) DEFAULT NULL,
+  `gender_Att` varchar(6) CHARACTER SET utf8 DEFAULT NULL,
+  `eductional_Level` varchar(40) CHARACTER SET utf8 DEFAULT NULL,
+  `career_Att` varchar(30) CHARACTER SET utf8 DEFAULT NULL,
+  `nationality_Att` varchar(20) CHARACTER SET utf8 DEFAULT NULL,
   `national_ID_Att` int(11) DEFAULT NULL,
   `VIP_code` int(11) DEFAULT NULL,
   `form_ID` int(11) NOT NULL,
@@ -110,12 +115,12 @@ CREATE TABLE `checkinsub` (
 
 CREATE TABLE `event` (
   `event_ID` int(5) NOT NULL,
-  `name_Event` varchar(30) NOT NULL,
-  `descrption_Event` varchar(200) NOT NULL,
+  `name_Event` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `descrption_Event` varchar(200) CHARACTER SET utf8 NOT NULL,
   `sartDate_Event` date NOT NULL,
   `endDate_Event` date NOT NULL,
-  `location_Event` varchar(30) NOT NULL,
-  `organization_name_Event` varchar(30) NOT NULL,
+  `location_Event` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `organization_name_Event` varchar(30) CHARACTER SET utf8 NOT NULL,
   `eventLink` varchar(140) NOT NULL,
   `maxNumOfAttendee` int(11) NOT NULL,
   `organizer_ID` int(11) NOT NULL
@@ -182,8 +187,8 @@ CREATE TABLE `registration_form` (
 CREATE TABLE `subevent` (
   `subevent_ID` int(6) NOT NULL,
   `event_ID` int(5) NOT NULL,
-  `nameSubEvent` varchar(30) NOT NULL,
-  `description_subevent` varchar(150) NOT NULL
+  `nameSubEvent` varchar(30) CHARACTER SET utf8 NOT NULL,
+  `description_subevent` varchar(150) CHARACTER SET utf8 NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -275,7 +280,7 @@ ALTER TABLE `subevent`
 -- AUTO_INCREMENT for table `account`
 --
 ALTER TABLE `account`
-  MODIFY `organizer_ID` int(6) NOT NULL AUTO_INCREMENT;
+  MODIFY `organizer_ID` int(6) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `attendee`
@@ -299,7 +304,7 @@ ALTER TABLE `certificate`
 -- AUTO_INCREMENT for table `event`
 --
 ALTER TABLE `event`
-  MODIFY `event_ID` int(5) NOT NULL AUTO_INCREMENT;
+  MODIFY `event_ID` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `prize`

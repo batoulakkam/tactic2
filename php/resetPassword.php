@@ -17,7 +17,9 @@ $mail->SMTPSecure = "ssl"; // ot TLS
  // set the SMTP port for the GMAIL server
     $mail->Port = "465"; // or 587 LTS
 $mail->Subject  =  'Reset Password';
-
+      $token = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890<>()!#%&/$*';
+      $token= str_shuffle($token);
+      $token= substr($token,0,10);
 
 if(isset($_POST['emailOrg']))
 {
@@ -27,7 +29,7 @@ if(isset($_POST['emailOrg']))
 		echo "true";
   // if(!empty($row['emailOrg']))
    //   $email=$row['emailOrg'];
-    $link="<a href='http://localhost/tactic/newPassword.php?key=$orgEmail</a>";
+    $link="<a href='http://localhost/tactic/newPassword.php?key=$token</a>";
 	$mail->Body    = 'Click On This Link to Reset Password '.$link.'';
 	$mail->setfrom('tactic.event@gmail.com','tactic');
     $mail->AddAddress($orgEmail);

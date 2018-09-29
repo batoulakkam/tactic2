@@ -14,8 +14,8 @@ function SignIn()
 {
     $orgEmail = $_POST['Email'];
     $password = $_POST['Password'];
-	//$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-	$query = mysqli_query($con,"SELECT * FROM account WHERE `emailOrg` = '$orgEmail' AND  `passwordOrg` = '$password'");
+	$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+	$query = mysqli_query($con,"SELECT * FROM account WHERE `emailOrg` = '$orgEmail' AND  `passwordOrg` = '$hashedPassword'");
 	$row = mysqli_fetch_array($query);
 	if($query)
 	{

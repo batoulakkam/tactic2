@@ -1,6 +1,6 @@
 <?php
 // conect to database 
-	include('php/connectTosql.php');
+	require_once('php/connectTosql.php');
     require("PHPMailer/src/PHPMailer.php");
     require("PHPMailer/src/SMTP.php");
     require("PHPMailer/src/Exception.php");
@@ -10,28 +10,40 @@
 // attribute to contan mesage
 $masg = "";
 
- if (isset( $_POST['submit'])) {
-	 $name= $_POST['Name'];
+  if (isset( $_POST['submit'])) {
+    
+     $name= $_POST['Name'];
      $email=$_POST['Email'];
      $password =$_POST['Password'];
      $Password2 =$_POST['Password2'];
      $gender=$_POST['gender'];
      $DOB=$_POST['Birthday'];
+	  if (time() > strtotime('+18 years', strtotime($DOB))) {
+
 	if($password !=$Password2)
-     $masg = " <div class='alert alert-danger alert-dismissible'>
-     <button type='button' class='close' data-dismiss='alert'>&times;</button>
-     <strong> حدث خطاء </strong> كلمات المرور غير متطابقة . </div> "; 
+           $masg = " <div class='alert alert-danger alert-dismissible'>
+           <button type='button' class='close' data-dismiss='alert'>&times;</button>
+            <strong> حدث خطأ </strong> كلمات المرور غير متطابقة 
+          </div> "; 
       else{
-		  $sql = mysqli_query($con,"SELECT organizer_ID FROM account WHERE emailOrg ='$email' ") or die(mysqli_error($con)) ;
-		  $numRow = mysqli_num_rows ($sql);
-        if( $numRow  > 0 ){
+		
+        
+        $sql = mysqli_query($con, "SELECT organizer_ID FROM account WHERE emailOrg ='$email' ") or die(mysqli_error($con)) ;
+		  
+        if( mysqli_num_rows ($sql) > 0 ){
 			
           $masg = " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
-         <strong> حدث خطاء </strong> الايميل مسجل لدينا.
+         <strong> حدث خطأ </strong> البريد الالكتروني الذي تحاول التسجيل به موجود مسبقا
        </div> ";
         }
 		 else{
+
+      $token = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890<>()!#%&/$*';
+      $token= str_shuffle($token);
+      $token= substr($token,0,10);
+
+
 			 $mail = new PHPMailer\PHPMailer\PHPMailer();
 		$mail->CharSet =  "utf-8";
 		$mail->Host = "smtp.gmail.com";
@@ -46,10 +58,14 @@ $masg = "";
 		$mail->Port = "465"; // or 587 LTS
 		
 		$mail->Subject  =  'شكراً لتسجيل لتسجيلك في تكيك';
-		$mail->Body = "<i>أهلا بك في تكتيك </i>";
+    $mail->Body = "أهلا بك في تكتيك 
+   شكرا لتسجيلك في تكتيك  لتاكيد البريد الالكتروني http://localhost/tactic/confarmemail.php?email=$email&token=$token ";
+   
 		$mail->setfrom('tactic.event@gmail.com','tactic');
-		$mail->AddAddress($email);
-		//$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    $mail->AddAddress($email);
+  
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    
 
           //add input to database
           
@@ -59,13 +75,16 @@ $masg = "";
 		
 			$masg =" <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
-         <strong> حدث خطاء </strong>  غير متوقع ! فضلا حاول مرة اخرى.
+         <strong> حدث خطأ </strong>  غير متوقع ! فضلا حاول مرة اخرى.
        </div> ";
 		} 
 		else 
 		{
-			$sql = mysqli_query($con, "INSERT INTO  account (organizer_ID, emailOrg, passwordOrg ,name_org,gender_org,DOB_org) VALUES ('','$email','$password','$name','$gender','$DOB')")or die(mysqli_error($con));
-			header('Location:LogIn.php?register=true');
+			$sql = mysqli_query($con, "INSERT INTO  account (organizer_ID, emailOrg, passwordOrg ,isEmailconfirm,token,name_org,gender_org,DOB_org) VALUES ('','$email','$hashedPassword','0','$token','$name','$gender','$DOB')")or die(mysqli_error($con));
+			$masg =" <div class='alert alert-success alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> تم التسجيل بنجاح </strong> لقد قمنا بارسال رسالة الى بريدك الكتروني يرجى التحقق منه لتأكيد الحساب  
+       </div> ";
 	
 		}
         
@@ -76,6 +95,14 @@ $masg = "";
       }
 
 
+}
+else {
+			   $masg = " <div class='alert alert-danger alert-dismissible'>
+           <button type='button' class='close' data-dismiss='alert'>&times;</button>
+            <strong> حدث خطأ </strong> لايمكن التسجيل لمن هم دون 18 عام
+          </div> ";
+		
+}
 }
 
 ?>
@@ -116,8 +143,8 @@ $masg = "";
               
                       <ul class="topnav">
 					<a class="navbar-brand titleNav" href="#" style ="color:cornflowerblue;float:right;">تكتيك</a>
-                    <li><a  href="register.html" >الإشتراك</a></li>
-                    <li><a class="active" href="LogIn.html">تسجيل الدخول</a></li>
+                    <li><a  href="register.php" >الإشتراك</a></li>
+                    <li><a class="active" href="LogIn.php">تسجيل الدخول</a></li>
                     <li><a href="#contact">تواصل معنا</a></li>
                     <li><a href="#about">حولنا</a></li>         
                           </ul>
@@ -143,7 +170,7 @@ $masg = "";
             
      
   <tr>
-    <td class="rightTd">  <input type="text" id="name" name="Name" placeholder="أدخل اسمك" style=" width:400px"  title="هذا الحقل مطلوب" required required dir ="rtl" ></td>
+    <td class="rightTd">  <input type="text" id="name" name="Name" placeholder="أدخل اسمك" style=" width:400px"  title="هذا الحقل مطلوب" required  dir ="rtl" ></td>
       <td class="leftTd">  <label style="color:red">*&nbsp; </label><label for="name"> : الاسم </label>  </td>
   </tr>
   
@@ -153,23 +180,33 @@ $masg = "";
   </tr>
   
   <tr>
-    <td><input type="password" id="password"  name="Password" placeholder="أدخل كلمة السر" autocomplete="on" style=" width:400px" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required title="يجب أن تحتوي على الأقل على 8 أحرف و حروف صغيرة و كبيرة" required dir ="rtl"></td>
-    <td>  <label style="color:red">*&nbsp; </label><label for="password"> : كلمة السر </label></td>
+    <td><input type="password" id="password"  name="Password" placeholder="       أدخل كلمة السر" autocomplete="on" style=" width:400px" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required title="يجب أن تحتوي على الأقل على 8 أحرف و حروف صغيرة و كبيرة" required dir ="rtl"  class="showPassword"></td>
+    <td>  <label style="color:red">*&nbsp; </label> <a class="fa fa-fw fa-eye field-icon toggle-password  " onclick="showpassword();" style="color:grey ;  position: relative;
+  right: 490px;
+	top: 2px;
+	text-decoration:none;
+	cursor: pointer;
+  "></a> <label for="password"> : كلمة السر </label></td>
   </tr>
   
   <tr>
-    <td><input type="password" id="confirm_password" name="Password2" placeholder="تأكيد كلمة السر "  autocomplete="off"style=" width:400px"required required dir ="rtl"></td>
-    <td>  <label style="color:red">*&nbsp; </label> <label for="confirm_password"> : تأكيد كلمة السر </label></td>
+	  <td><input type="password" id="confirm_password" name="Password2" placeholder="       تأكيد كلمة السر "  autocomplete="off"style=" width:400px" required dir ="rtl" class="showPassword"> </td>
+    <td>  <label style="color:red">*&nbsp; </label> <a class="fa fa-fw fa-eye field-icon toggle-password  " onclick="showpassword()" style="color:grey ;  position: relative;
+  right: 465px;
+	top: 2px;
+	text-decoration:none;
+	cursor: pointer;
+  "></a> <label for="confirm_password"> : تأكيد كلمة السر </label></td>
   </tr>
   
   <tr>
-    <td><input type="date" name="Birthday"  style=" width:400px" required dir ="rtl"></td>
+    <td><input type="date" name="Birthday"  style=" width:400px" required dir ="rtl"  ></td>
     <td> <label style="color:red">*&nbsp; </label> <label for="birthday"> : تاريخ الميلاد  </label></td>
   </tr>
  <tr>
 
-    <td> <label class="radio-inline  "> أنثى &nbsp </label> <input type="radio" name="gender" value="female" > 
-	<label class="radio-inline " > ذكر &nbsp </label> <input type="radio" name="gender" value="male" checked> 
+    <td> <label class="radio-inline  "> أنثى &nbsp; </label> <input type="radio" name="gender" value="انثى" > 
+	<label class="radio-inline " > ذكر &nbsp; </label> <input type="radio" name="gender" value="ذكر" checked> 
   </td>
     <td> <label style="color:red">*&nbsp; </label> <label for="gender"> : الجنس</label></td>	
 </tr>
@@ -185,13 +222,13 @@ $masg = "";
   
   
   
-  
-
-</table>
+ </table>
         
   </form>
+ </div>  
 
-    </div>        
+      
+      
   </div>
 
   <!-- end of  register inputs -->

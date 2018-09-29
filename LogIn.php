@@ -37,8 +37,8 @@ include('php/connectTosql.php');?>
               
                       <ul class="topnav">
 					<a class="navbar-brand titleNav" href="#" style ="color:cornflowerblue;float:right;">تكتيك</a>
-                    <li><a  href="register.html" >الإشتراك</a></li>
-                    <li><a class="active" href="LogIn.html">تسجيل الدخول</a></li>
+                    <li><a  href="register.php" >الإشتراك</a></li>
+                    <li><a class="active" href="LogIn.php">تسجيل الدخول</a></li>
                     <li><a href="#contact">تواصل معنا</a></li>
                     <li><a href="#about">حولنا</a></li>         
                           </ul>
@@ -61,13 +61,13 @@ include('php/connectTosql.php');?>
 
   
   <tr>
-    <td>   <input type="email" id="email" name="Email" placeholder="أدخل بريدك الإلكتروني" autocomplete="off" style=" width:400px" required  ></td>
-    <td><label for="email"> : البريد الإلكتروني </label></td>
+    <td>   <input type="email" id="email" name="Email" placeholder="أدخل بريدك الإلكتروني" autocomplete="on" style=" width:400px" required  ></td>
+    <td><label style="color:red">*&nbsp; </label><label for="email"> : البريد الإلكتروني </label></td>
   </tr>
   
   <tr>
     <td><input type="password" id="password" name="Password" placeholder="أدخل كلمة السر"  style=" width:400px" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" onchange='check_pass();' title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"required ></td>
-    <td>  <label for="password"> : كلمة السر </label></td>
+    <td> <label style="color:red">*&nbsp; </label> <label for="password"> : كلمة السر </label></td>
 	
   </tr>
   
@@ -85,33 +85,46 @@ if (isset($_POST['Email']) and isset($_POST['Password']))
     
     $orgEmail = $_POST['Email'];
     $password = $_POST['Password'];
-	//$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-	$query = mysqli_query($con,"SELECT * FROM account WHERE `emailOrg` = '$orgEmail' AND  `passwordOrg` = '$password'");
+	$query = mysqli_query($con,"SELECT * FROM account WHERE `emailOrg` = '$orgEmail'");
 	$row = mysqli_fetch_array($query);
+	if (password_verify($password,$row['passwordOrg'])){
+	
 	if($query)
 	{
-        $_SESSION['organizerID']= $row['organizerID'];
+		
+        $_SESSION['organizerID']= $row['organizer_ID'];
+		$_SESSION['OrgName']=$row['name_org'];
 		$_SESSION['orgEmail']= $row['emailOrg'];
         $_SESSION['password']= $row['passwordOrg'];
-        header('Location:addEvent.php');
+		$_SESSION['emailconfirm']= $row['isEmailconfirm'];
+        header('Location:addEvent.php?');
         exit();
         } // end if 
     else{
         header('Location:LogIn.php?error=false');
         exit();}
 }
+echo " <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> فشل</strong>  تحقق من كلمة المرور
+       </div> ";
+}
+
 
     if(isset($_GET['error'])){
-     echo "<div class='alert alert-danger ' role='alert'>
-  تحقق من كلمة المرور أو البريد الالكتروني 
-</div>";}
+     echo " <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> فشل</strong>  من تطابق كلمة المرور
+       </div> ";}
     
    
     if(isset($_GET['edit'])){
 		if ($_GET['edit'] = true)
-     echo "<div class='alert alert-success  ' role='alert'>
-  تم تغير كلمة المرور بنجاح يرجى تسجيل الدخول
-</div>";}
+			echo " <div class='alert alert-success alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+        تم تغير كلمة المرور بنجاح يرجى تسجيل الدخول
+       </div> ";
+    }
    if(isset($_GET['register'])){
 		if ($_GET['register'] = true)
      echo " <div class='alert alert-success alert-dismissible'>

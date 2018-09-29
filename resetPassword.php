@@ -21,7 +21,6 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     
     <!-------------------------------------------------------------------------->
-
     <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
 
 </head>
@@ -33,15 +32,19 @@
        
                  
               
-                    
+                      <ul class="topnav">
 					<a class="navbar-brand titleNav" href="#" style ="color:cornflowerblue;float:right;">تكتيك</a>
-                        
-                    
+                    <li><a  href="register.php" >الإشتراك</a></li>
+                    <li><a class="active" href="LogIn.php">تسجيل الدخول</a></li>
+                    <li><a href="#contact">تواصل معنا</a></li>
+                    <li><a href="#about">حولنا</a></li> >         
+                          </ul>
 						  
 
                 </div>
               </nav>
     </div>
+
 	 <!-- Body of register Page -->
   <div class="mainContent">
     <div class="pageTitel">
@@ -63,12 +66,14 @@
    
     if(isset($_GET['sent'] )){
 	if ($_GET['sent'] = true)
-     echo "<div class='alert alert-success  ' role='alert'>
-  تم ارسال ايميل لتغير كلمة المرور
-</div>";
-   else  echo "<div class='alert alert-danger ' role='alert'>
-  يرجى التحقق من البريد الالكتروني
-</div>";}
+       echo " <div class='alert alert-success alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> تم </strong>  تم ارسال رسالة على بريدك الالكتروني لتغير كلمة المرور
+       </div> ";
+   else              echo " <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> فشل</strong>  يرجى التحقق من البريد الالكتروني
+       </div> ";}
     
                 
     

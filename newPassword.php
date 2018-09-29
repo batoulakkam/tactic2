@@ -6,7 +6,7 @@ $confirm_password ="";
 
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="ar">
 <head>
 <title> ادخال كلمة المرور </title>
 <meta charset="utf-8">
@@ -28,7 +28,6 @@ $confirm_password ="";
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     
     <!-------------------------------------------------------------------------->
-
     <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
 
 </head>
@@ -40,10 +39,13 @@ $confirm_password ="";
        
                  
               
-                    
+                      <ul class="topnav">
 					<a class="navbar-brand titleNav" href="#" style ="color:cornflowerblue;float:right;">تكتيك</a>
-                        
-                    
+                    <li><a  href="register.php" >الإشتراك</a></li>
+                    <li><a class="active" href="LogIn.php">تسجيل الدخول</a></li>
+                    <li><a href="#contact">تواصل معنا</a></li>
+                    <li><a href="#about">حولنا</a></li>        
+                          </ul>
 						  
 
                 </div>
@@ -61,11 +63,11 @@ $confirm_password ="";
             <table class="tabelForm">
                 <tr>
                 <td>   <input type="text" id="password" name="password" placeholder="كلمة المرور" autocomplete="on" style=" width:400px" required  ></td>
-                <td><label for="password"> :ادخل كلمة المرور  </label></td>
+                <td><label style="color:red">*&nbsp; </label><label for="password"> :ادخل كلمة المرور  </label></td>
               </tr>
 			    <tr>
                 <td>   <input type="text" id="password" name="confirmPassword" placeholder="كلمة المرور" autocomplete="on" style=" width:400px" required  ></td>
-                <td><label for="email"> :تأكيد كلمة المرور  </label></td>
+                <td><label style="color:red">*&nbsp; </label><label for="email"> :تأكيد كلمة المرور  </label></td>
               </tr>
                 <tr>
                <td> <input type="submit" value="حفظ" class="btn btn-primary" center id="submit"  name="submitPassword"> </td>
@@ -77,8 +79,9 @@ if (isset($_POST['password']) && isset($_POST['confirmPassword'])){
 $confirm_password = $_POST['confirmPassword'];
 
 if($password == $confirm_password ){
-//$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
- $select=mysqli_query($con,"update account set passwordOrg='$password' WHERE `emailOrg` = '$email'");
+$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+$conn = mysqli_connect('localhost','root','','tactic');
+ $select=mysqli_query($conn,"update account set passwordOrg='$hashedPassword' WHERE `emailOrg` = '$email'");
 if ($select){
 	             
         header('Location:LogIn.php?edit=true');
@@ -88,9 +91,10 @@ if ($select){
 
 }
 else {
-	echo "<div class='alert alert-danger ' role='alert'>
-  تحقق من تطابق كلمة المرور  
-</div>";}
+	echo " <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> فشل</strong>  من تطابق كلمة المرور
+       </div> ";}
 	
 	
 }	
