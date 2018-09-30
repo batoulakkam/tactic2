@@ -62,7 +62,7 @@ $query = mysqli_query($con, "SELECT event_ID,name_Event FROM event ") or die(mys
             <table class="tabelForm">
     <tr>
     <td> 
-        <select id="deleteEvent" name="deleteEvent" style=" width:400px"  dir="rtl">
+        <select id="deleteEvent" onChange="change_event()" name="deleteEvent" style=" width:400px"  dir="rtl">
             
          <?php
 while ($row = mysqli_fetch_array($query)):
@@ -87,8 +87,8 @@ while ($row = mysqli_fetch_array($query)):
 	        <?php
 if (isset($_POST['delete'])) {
     $event_ID = $_POST['deleteEvent'];
-
-    $query1 = mysqli_query($con, "DELETE FROM subevent WHERE event_ID ='$event_ID'");
+    $subID = $_POST['deleteSubEvent'];
+    $query1 = mysqli_query($con, "DELETE FROM subevent WHERE event_ID ='$event_ID'AND subevent_ID = '$subID' ");
 
     if ($query1 != null) {
         echo "<div class='alert alert-success ' role='alert'>
@@ -118,25 +118,16 @@ if (isset($_POST['delete'])) {
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script>
-    $(function () {
-        //  اقوم بعمل تحقق اذا تم تغيير قيمة القائمة الخاصة بالدول
-       $('#deleteEvent').on("change",function(){
-           // ا جلبت رقم الدولة حسب ما اختاره المتسخدم عند تغيير القائمة
-           var dropValue = $('#deleteEvent').val();
-           $.ajax({
-            url: 'edit.php',
-            type: "POST",
-            data:{value:dropValue},
-            success: function (data) {
-          // console.log(data);
-             $('#deleteSubEvent').html(data);
+    function change_event(){
+ 
+ var  xmlhttp=new XMLHttpRequest();//
+  xmlhttp.open("GET","ajax.php?Eventname="+document.getElementById("deleteEvent").value,false);
+  xmlhttp.send(null);
+  document.getElementById("deleteSubEvent").innerHTML=xmlhttp.responseText;
+  
 
-            }
-        });
 
-       });
-    });
-
+  }
 
 </script>
 <script src="js/javaScriptfile.js"></script>
