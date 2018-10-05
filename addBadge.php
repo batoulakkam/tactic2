@@ -13,7 +13,7 @@ $badgeType=$_POST['badgeType'];
 
 // Check if a badge of this type ($badgeType) has been attached
 $queryBadge = mysqli_query($con,"SELECT * FROM badge")or die(mysqli_error());
-if($row = mysqli_fetch_array($query)){
+if($row = mysqli_fetch_array($queryBadge)){
   if($row['event_ID'] ==$eventName && $row['badge_type']!=$badgeType){
     // add info of new badge to the DB
       $sql = mysqli_query($con, "INSERT INTO badge ( badge_ID, badge_templete, badge_type ,event_ID) 
