@@ -1,7 +1,9 @@
 <?php
+// connect to DB
 require_once 'php/connectTosql.php';
 
 if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
+  // this section for get the event name fro DB
   $query = mysqli_query($con,"SELECT * FROM event")or die(mysqli_error());
 
  if (isset($_POST['add'])) {
@@ -128,6 +130,7 @@ if($row = mysqli_fetch_array($query)){
   <script src="js/jquery.min.js"></script>
   <script src="js/bootstrap.min.js"></script>
   <script>
+  // this part for call navBar
     $(function () {
       $("#includedContent").load("php/TopNav.php");
       $("#includedContent2").load("HTML/rightNav.html");
