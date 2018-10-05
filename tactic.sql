@@ -90,7 +90,7 @@ CREATE TABLE `badge` (
 --
 
 CREATE TABLE `certificate` (
-  `certif icate_ ID` int(11) NOT NULL,
+  `certificate_ID` int(11) NOT NULL,
   `certificate_templet` text NOT NULL,
   `event_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
