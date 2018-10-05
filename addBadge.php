@@ -113,7 +113,7 @@ if($row = mysqli_fetch_array($query)){
 
            
 
-           <a  href="/tactic/manageEvent.php"  class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
+           <a  href="/tactic/manageBadge.php"  class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
             <input type="submit" value="إضافة" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
 
         </div>
