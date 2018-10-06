@@ -1,11 +1,9 @@
 <?php
 //connect to database
-require_once 'php/connectTosql.php';
+require_once '../php/connectTosql.php';
 ///delete event
-
 if (isset($_GET['eventId']) && $_GET['eventId'] != '') {//retreive the hidden id in modal
-
- $eventId = $_GET['eventId'];
+$eventId = $_GET['eventId'];
  $sql     = "delete from  event  WHERE  event_ID = '$eventId'";
  $query   = mysqli_query($con, $sql) or die(mysqli_error($con));
  //succsess to retreive id
@@ -22,39 +20,36 @@ if (isset($_GET['eventId']) && $_GET['eventId'] != '') {//retreive the hidden id
 
  }
 
-} else {
- echo "Id is not set";
-}
-
+} 
 if (isset($_GET['eventName']) && $_GET['eventName'] != '') {
  $eventName = $_GET['eventName'];
- $query     = mysqli_query($con, "SELECT * FROM event  WHERE  name_Event like '%$eventName%' ") or die(mysqli_error($con));
+ $query = mysqli_query($con, "SELECT * FROM event  WHERE  name_Event like '%$eventName%' ") or die(mysqli_error($con));
 } else {
- $query = mysqli_query($con, "SELECT * FROM event") or die(mysqli_error($con));
+if (isset($_SESSION['organizerID'])){
+$orgID = $_SESSION['organizerID'];
+ $query = mysqli_query($con, "SELECT * FROM event WHERE organizer_ID = '$orgID' ") or die(mysqli_error($con));
+}
 }
 
 ?>
 
 <!DOCTYPE html>
 <html>
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-
-
 <!-- lobrary of icon  fa fa- --->
 <title>إدارة الأحداث</title>
 
-<link href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' rel='stylesheet' type='text/css' />
-<link href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' rel='stylesheet' type='text/css' />
-<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
-
-<link rel="stylesheet" href="css/layouts/custom.css">
-<link rel="stylesheet" href="css/font-awesome.min.css">
-<link rel="stylesheet" href="css/icon.css">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/main-rtl.css">
-
-<link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+ <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
+  <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/layouts/custom.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/icon.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/main-rtl.css">
+  <link rel="shortcut icon" href="../image/logo.ico" type="image/x-icon" />
 
 
 <!-------------------------------------------------------------------------->
@@ -64,7 +59,6 @@ if (isset($_GET['eventName']) && $_GET['eventName'] != '') {
 <body>
   <div id="includedContent"></div>
   <div id="includedContent2"></div>
-
   <div class="mainContent">
 
     <div class="container">
@@ -77,16 +71,19 @@ if (isset($_GET['eventName']) && $_GET['eventName'] != '') {
           <form action="manageEvent.php" class="manageEventFrm" method="Get">
 
             <div class="col-md-12">
-              <div class="form-group form-group-lg">
+              <div class="form-group form-group ">
                 <label for="eventName" class="control-label"> اسم الحدث</label>
-                <input type="text" class="form-control" id="txtEventName" name="eventName" required>
+				 <div class="form-inline">
+                <input type="text" class=" form-control" id="txtEventName" name="eventName" required style="width: 450px">
+				 <input type="submit" class="btn btn-nor-primary btn-sm glyphicon glyphicon-search" name="update" value="بحث">
+			</div>
               </div>
             </div>
 
             <div class="col-md-12">
-              <div class="form-group form-group-lg">
-                 <input type="submit" value="بحث" name="update" class="btn btn-nor-primary btn-sm">
-                 <a class="btn btn-nor-primary btn-sm" href="addEvent.php"> إضافة حدث</a>
+              <div class="form-group form-group">
+                
+                 <a class="btn btn-nor-primary btn" href="addEvent.php"> إضافة حدث</a>
 
               </div>
             </div>
@@ -113,12 +110,15 @@ while ($row = mysqli_fetch_array($query)):
  echo "<td>" . $row['organization_name_Event'] . "</td>";
  echo "<td>" . $row['sartDate_Event'] . "</td>";
  echo "<td>" . $row['endDate_Event'] . "</td>";
- echo "<td> <a id='aEditEvent' href='editEvent.php?eventid=" . $row['event_ID'] . "'><span class='fa fa-edit' style='font-size:24px;'></span></a>
-		        <a href='#' id='aDeletEvent' class='adelete' data-id=" . $row['event_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a></td>
-		      </tr>";
+echo "<td>";
+echo "<a id='aEditEvent' href='editEvent.php?eventid=" . $row['event_ID'] . "'> ";
+echo "<span class='fa fa-edit' style='font-size:24px;'></span>";
+echo "</a>";
+echo"<a href='#' id='aDeletEvent' class='adelete' data-id=" . $row['event_ID'] . "><span  class=' fa fa-trash' style='font-size:24px;color:red;  '></span> </a></td>
+</tr>";
 
  ?>
-	      <?php endwhile;?>
+<?php endwhile;?>
 
 
     </table>
@@ -143,18 +143,20 @@ while ($row = mysqli_fetch_array($query)):
     </div>
   </div>
 </div>
+</div>
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/jquery.validate.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/appjs/event.js"></script>
+  <script src="../js/appjs/common.js"></script>
+  
 
- <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/appjs/event.js"></script>
-    <script src="js/appjs/common.js"></script>
-
-    <script>
-      $(function () {
-        $("#includedContent").load("php/TopNav.php");
-        $("#includedContent2").load("HTML/rightNav.html");
-      });
-    </script>
+  <script>
+    $(function () {
+      $("#includedContent").load("../php/TopNav.php");
+      $("#includedContent2").load("../HTML/rightNav.html");
+    });
+  </script>
 
 </body>
 

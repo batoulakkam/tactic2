@@ -1,5 +1,5 @@
 <?php
-require_once 'php/connectTosql.php';
+require_once '../php/connectTosql.php';
 
 $query = null;
 if (isset($_GET['eventid']) && $_GET['eventid'] != '') {
@@ -10,7 +10,8 @@ if (isset($_GET['eventid']) && $_GET['eventid'] != '') {
  echo  "id is not exist";
  }
 } else {
- header('Location: myerrorpage.php');
+// عدلتو لانو ممافي صفحة ماي ايرور
+ header('Location: manageEvet.php');
 }
 
 $return_arr = array();
@@ -40,17 +41,16 @@ if ($query) {
 
     <!-- lobrary of icon  fa fa- --->
 
+ <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
+  <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/layouts/custom.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/icon.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/main-rtl.css">
 
-    <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
-    <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/layouts/custom.css">
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="css/icon.css">
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/main-rtl.css">
-
-    <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="../image/logo.ico" type="image/x-icon" />
 
 
     <!-------------------------------------------------------------------------->
@@ -58,8 +58,8 @@ if ($query) {
 </head>
 
 <body>
-    <div id="includedContent"></div>
-    <div id="includedContent2"></div>
+  <div id="includedContent"></div>
+  <div id="includedContent2"></div>
     <div class="mainContent">
         <div class="container">
             <div class="panel panel-primary">
@@ -145,27 +145,29 @@ if ($query) {
                         </div>
 
                         <a href="/tactic/manageEvent.php" class="bodyform btn btn-nor-danger btn-sm">عودة</a>
-                </div>
-                </form>
+       
+        </form>
 
-            </div>
-        </div>
+      </div>
     </div>
-    </div>
-    </div>
-    </div>
+  </div>
+  </div>
+ 
 
-    <script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/appjs/event.js"></script>
-    <script src="js/appjs/common.js"></script>
+  <!-- end of  register inputs -->
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/jquery.validate.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/appjs/event.js"></script>
+  <script src="../js/appjs/common.js"></script>
+  
 
-    <script>
-        $(function () {
-            $("#includedContent").load("php/TopNav.php");
-            $("#includedContent2").load("HTML/rightNav.html");
-        });
-    </script>
+  <script>
+    $(function () {
+      $("#includedContent").load("../php/TopNav.php");
+      $("#includedContent2").load("../HTML/rightNav.html");
+    });
+  </script>
 
 </body>
 

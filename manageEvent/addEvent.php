@@ -1,5 +1,5 @@
 <?php
-require_once 'php/connectTosql.php';
+require_once '../php/connectTosql.php';
 if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
 
  if (isset($_POST['add'])) {
@@ -25,7 +25,7 @@ $maxAttendee      = $_POST['maxAttendee'];
    $sql = mysqli_query($con, "INSERT INTO event ( event_ID, name_Event, descrption_Event ,sartDate_Event,endDate_Event,location_Event,organization_name_Event,maxNumOfAttendee,organizer_ID) VALUES ('','$eventName','$EventDescription','$datestart','$dateend','$location','$organizationName','$maxAttendee','$IDT')") or die(mysqli_error($con));
 
    if ($sql) {
-    header("location: /tactic/manageEvent.php");
+    header("location:manageEvent.php");
    exit;
    } else {
     echo " <div class='alert alert-danger alert-dismissible'>
@@ -58,13 +58,13 @@ $maxAttendee      = $_POST['maxAttendee'];
   <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
   <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
   <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/layouts/custom.css">
+  <link rel="stylesheet" href="../css/layouts/custom.css">
   <link rel="stylesheet" href="css/font-awesome.min.css">
-  <link rel="stylesheet" href="css/icon.css">
-  <link rel="stylesheet" href="css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/main-rtl.css">
+  <link rel="stylesheet" href="../css/icon.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/main-rtl.css">
 
-  <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="../image/logo.ico" type="image/x-icon" />
 
 
   <!-------------------------------------------------------------------------->
@@ -151,28 +151,27 @@ $maxAttendee      = $_POST['maxAttendee'];
            <a  href="/tactic/manageEvent.php"  class="bodyform btn btn-nor-danger btn-sm">عودة</a>
             <input type="submit" value="إضافة" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
 
-        </div>
+         
         </form>
 
       </div>
     </div>
   </div>
   </div>
-  </div>
-  </div>
+ 
 
   <!-- end of  register inputs -->
-  <script src="js/jquery.min.js"></script>
-  <script src="js/jquery.validate.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/appjs/event.js"></script>
-  <script src="js/appjs/common.js"></script>
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/jquery.validate.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/appjs/event.js"></script>
+  <script src="../js/appjs/common.js"></script>
   
 
   <script>
     $(function () {
-      $("#includedContent").load("php/TopNav.php");
-      $("#includedContent2").load("HTML/rightNav.html");
+      $("#includedContent").load("../php/TopNav.php");
+      $("#includedContent2").load("../HTML/rightNav.html");
     });
   </script>
 
