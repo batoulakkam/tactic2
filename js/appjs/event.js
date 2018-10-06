@@ -1,54 +1,57 @@
 $(document).ready(function() {
 
-            $("#aDeletEvent").click(function() {
-                $('#modalDelete').modal('show');
-            });
+    //delete event
+    $(".adelete").click(function() {
+        $("#hdEventId").val($(this).data("id"));
+        $('#modalDelete').modal('show');
+    });
 
-            $('#btnConfirmDelete').click(function() {
-                var eventId = $('#editEvent1').val();
-                $.ajax({
-                    url: '/tactic/editEvent.php',
-                    type: "GET",
-                    dataType: 'JSON',
-                    data: {
-                        ajaxid: eventId
-                    },
-                    success: function(data) {
+    $('#btnConfirmDelete').click(function() {
+        var eventId = $('#hdEventId').val();
+        $.ajax({
+            type: "GET",
+            dataType: 'JSON',
+            data: {
+                eventId: eventId
+            },
+            success: function(data) {
+                if (data == true) {
+                    location.reload();
+                } else {
 
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                        alert(thrownError);
-                    }
-                });
+                    var errorMeesage = "<div class='alert alert-danger alert-dismissible'>" +
+                        "<button type='button' class='close' data-dismiss='alert'>&times;</button>" +
+                        "فشل عملية الحذف يرجى التحقق</div>";
+                    $(".panel-heading").before(errorMeesage);
 
+                }
+            },
+            error: function(xhr, ajaxOptions, thrownError) {
+                var errorMeesage = "<div class='alert alert-danger alert-dismissible'>" +
+                    "<button type='button' class='close' data-dismiss='alert'>&times;</button>" +
+                    "فشل عملية الحذف يرجى التحقق</div>";
+                $(".panel-heading").before(errorMeesage);
+            }
+        });
+    });
 
+    $(".formDiv").validate({
+        // Specify validation rules
+        rules: {
+            eventName: {
+                required: true,
+                maxlength: 30
+            },
+            organizer: "required"
+        },
 
-                // $('#editEvent1').on("change", function () {
-                //     var eventId = $('#editEvent1').val();
-                //     $.ajax({
-                //         url: '/tactic/editEvent.php',
-                //         type: "GET",
-                //         dataType: 'JSON',
-                //         data: {
-                //             ajaxid: eventId
-                //         },
-                //         success: function (data) {
-                //             $("#eventName").val(data[0].nameEvent);
-                //             $("#organizer").val(data[0].organizationnameEvent);
-                //             $("#maxAttendee").val(data[0].maxNumOfAttendee)
-                //             $("#sdaytime").val(data[0].sartDateEvent)
-                //             $("#edaytime").val(data[0].endDateEvent)
-                //             $("#location").val(data[0].locationEvent)
-                //             $("#description").val(data[0].descrptionEvent)
+        messages: {
+            eventName: {
+                required: "حقل مطلوب",
+                maxlength: "لايمكنك إدخال نص يزيد عن 30 محرف"
+            },
+            organizer: "حقل مطلوب"
+        }
+    });
 
-
-
-                //         },
-                //         error: function (xhr, ajaxOptions, thrownError) {
-                //             alert(xhr.status);
-                //             alert(thrownError);
-                //         }
-                //     });
-
-            });
+});

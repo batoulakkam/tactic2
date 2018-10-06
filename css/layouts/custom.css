@@ -283,3 +283,7 @@ ul.topnav li.right {
 .RegisterInputs {
     float: right;
 }
+
+.error {
+    color: #ff0000;
+}
