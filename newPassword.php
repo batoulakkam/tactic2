@@ -2,30 +2,26 @@
 require_once('php/connectTosql.php');
 $masg = "";
 if(isset($_GET['key'])){
-$token=$_GET['key'];
+// تكوين جديدة مشان مايرجع يفوت من نفس الرابط ويرجع يعدل 
+ $tokenUp = 'qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM1234567890<>()!#%&/$*';
+ $tokenUp= str_shuffle($tokenUp);
+ $tokenUp= substr($tokenUp,0,10);
 if (isset($_POST['password']) && isset($_POST['confirmPassword'])){
- $password=$_POST['password'];
+$password=$_POST['password'];
 $confirm_password = $_POST['confirmPassword'];
 $con = mysqli_connect('localhost','root','','tactic');
 if($password == $confirm_password ){
-
+$token=$_GET['key'];	
 $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-$masg= $hashedPassword;
- $select =mysqli_query($con,"UPDATE account SET  passwordOrg='$hashedPassword' WHERE token = '$token'");
-       
-if ($select!=null){
+$select =mysqli_query($con,"UPDATE account SET passwordOrg= '$hashedPassword', token = '$tokenUp'  WHERE token ='$token'");
+ if ($select!=null){
  header('Location:LogIn.php?edit=true');
-    exit();
-     } 
-
-
-}
+    exit();}}
 else {
-	$masg= " <div class='alert alert-danger alert-dismissible'>
-       <button type='button' class='close' data-dismiss='alert'>&times;</button>
-        <strong> فشل</strong>  من تطابق كلمة المرور
-     </div> ";}
-}	
+$masg= " <div class='alert alert-danger alert-dismissible'>
+ <button type='button' class='close' data-dismiss='alert'>&times;</button>
+ <strong> فشل</strong>  من تطابق كلمة المرور
+ </div> ";}}	
 }
 else{header('Location:LogIn.php');}
 
@@ -63,7 +59,7 @@ else{header('Location:LogIn.php');}
     <div class="container">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h4 class="panelTitle">الاشتراك  </h4>
+          <h4 class="panelTitle">استعادة كلمة المرور </h4>
         </div>
         <div class="panel-body">
 
