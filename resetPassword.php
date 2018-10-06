@@ -1,29 +1,46 @@
+  <?php
+   $masg="";
+    if(isset($_GET['sent'] )){
+	if ($_GET['sent'] = true)
+       $masg= " <div class='alert alert-success alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> تم </strong>  تم ارسال رسالة على بريدك الالكتروني لتغير كلمة المرور
+       </div> ";
+   else    
+	   $masg= " <div class='alert alert-danger alert-dismissible'>
+        <button type='button' class='close' data-dismiss='alert'>&times;</button>
+         <strong> فشل</strong>  يرجى التحقق من البريد الالكتروني
+       </div> ";}
+    
+                
+    
+      ?>
 <!DOCTYPE html>
 <html>
 <head>
-<title> استعادة كلمة المرور </title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' rel='stylesheet' type='text/css'/>
-    <link href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' rel='stylesheet' type='text/css'/>
-    <link rel="stylesheet" href="css/layouts/custom.css">
-    
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
-    <!-- lobrary of icon  fa fa- --->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
- <!-- lobrary of style bootstrab 3  --->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
- <!-- lobrary of style bootstrab 4  --->
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    
-    <!-------------------------------------------------------------------------->
-    <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+  <!-- lobrary of icon  fa fa- --->
+
+
+  <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
+  <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/layouts/custom.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/icon.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main-rtl.css">
+
+  <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+
+
+  <!-------------------------------------------------------------------------->
 
 </head>
+
 <body>
 <div class ="headerNav">
                <nav class="navbar navbar-inverse"  data-offset-top="10">
@@ -46,49 +63,41 @@
     </div>
 
 	 <!-- Body of register Page -->
-  <div class="mainContent">
-    <div class="pageTitel">
-       <h1> استعادة كلمة المرور   </h1>
-          </div>
+ <div class="mainContent">
+    <div class="container">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4 class="panelTitle">استعادة كلمة المرور  </h4>
+        </div>
+        <div class="panel-body">
 
-   <div class ="container">
-          <form method="post" action="php/resetPassword.php" class="formDiv" autocomplete="on">
+          <form action="php/resetPassword.php" class="formDiv" method="post"autocomplete="on">     
             
-            <table class="tabelForm">
-                <tr>
-                <td>   <input type="text" id="email" name="emailOrg" placeholder="أدخل بريدك الإلكتروني" autocomplete="on" style=" width:400px" required  ></td>
-                <td><label for="email"> :أدخل البريد الالكتروني لاستعادة كلمة المرور  </label></td>
-              </tr>
-                <tr>
-               <td> <input type="submit" value=" استعادة" class="btn btn-primary" center id="submit"  name="submit_email"> </td>
-              </tr> 
-				    <?php
-   
-    if(isset($_GET['sent'] )){
-	if ($_GET['sent'] = true)
-       echo " <div class='alert alert-success alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert'>&times;</button>
-         <strong> تم </strong>  تم ارسال رسالة على بريدك الالكتروني لتغير كلمة المرور
-       </div> ";
-   else              echo " <div class='alert alert-danger alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert'>&times;</button>
-         <strong> فشل</strong>  يرجى التحقق من البريد الالكتروني
-       </div> ";}
-    
-                
-    
-      ?>
-              </table>
-
-              </form>
+            <?php  if ($masg !="") echo $masg."<br>"; ?>
+           <div class="col-md-12">
+              <div class="form-group form-group-lg">
+                <label class="control-label">  البريد الإلكتروني: </label><label style="color:red">*&nbsp; </label>
+  				<input type="email" class="form-control" id="email" name="Email" placeholder="أدخل بريدك الإلكتروني" autocomplete="on"  required >
+ 	 </div>
+      </div>
+			   <input type="submit" value="استعادة" name="submit_email" class="btn btn-nor-primary btn-lg enable-overlay">
+               
+        
        
-       
-  
-    </div> 
+        </form>
 
+      </div>
+    </div>
+  </div>
+  </div>
+ 
 
-    </div> 
-  
+  <!-- end of  register inputs -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/appjs/event.js"></script>
+  <script src="js/appjs/common.js"></script>
 
 </body>
+
 </html>

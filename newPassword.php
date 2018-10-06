@@ -1,120 +1,103 @@
 <?php
 require_once('php/connectTosql.php');
-$password ="" ;
-$confirm_password ="";
+$masg = "";
+if(isset($_GET['key'])){
+$token=$_GET['key'];
+if (isset($_POST['password']) && isset($_POST['confirmPassword'])){
+ $password=$_POST['password'];
+$confirm_password = $_POST['confirmPassword'];
+$con = mysqli_connect('localhost','root','','tactic');
+if($password == $confirm_password ){
 
+$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+$masg= $hashedPassword;
+ $select =mysqli_query($con,"UPDATE account SET  passwordOrg='$hashedPassword' WHERE token = '$token'");
+       
+if ($select!=null){
+ header('Location:LogIn.php?edit=true');
+    exit();
+     } 
+
+
+}
+else {
+	$masg= " <div class='alert alert-danger alert-dismissible'>
+       <button type='button' class='close' data-dismiss='alert'>&times;</button>
+        <strong> فشل</strong>  من تطابق كلمة المرور
+     </div> ";}
+}	
+}
+else{header('Location:LogIn.php');}
 
 ?>
 <!DOCTYPE html>
 <html lang="ar">
 <head>
 <title> ادخال كلمة المرور </title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' rel='stylesheet' type='text/css'/>
-    <link href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' rel='stylesheet' type='text/css'/>
-    <link rel="stylesheet" href="css/layouts/custom.css">
-    
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
-    <!-- lobrary of icon  fa fa- --->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
- <!-- lobrary of style bootstrab 3  --->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
- <!-- lobrary of style bootstrab 4  --->
 
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-    
-    <!-------------------------------------------------------------------------->
-    <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+  <!-- lobrary of icon  fa fa- --->
+
+
+  <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
+  <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/layouts/custom.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/icon.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main-rtl.css">
+
+  <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+
+
+  <!-------------------------------------------------------------------------->
 
 </head>
 <body>
-<div class ="headerNav">
-               <nav class="navbar navbar-inverse"  data-offset-top="10">
-                
-                <div class="container-fluid">
-       
-                 
-              
-                      <ul class="topnav">
-					<a class="navbar-brand titleNav" href="#" style ="color:cornflowerblue;float:right;">تكتيك</a>
-                    <li><a  href="register.php" >الإشتراك</a></li>
-                    <li><a class="active" href="LogIn.php">تسجيل الدخول</a></li>
-                    <li><a href="#contact">تواصل معنا</a></li>
-                    <li><a href="#about">حولنا</a></li>        
-                          </ul>
-						  
 
-                </div>
-              </nav>
-    </div>
 	 <!-- Body of register Page -->
-  <div class="mainContent">
-    <div class="pageTitel">
-       <h1> استعادة كلمة المرور   </h1>
-          </div>
+<div class="mainContent">
+    <div class="container">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4 class="panelTitle">الاشتراك  </h4>
+        </div>
+        <div class="panel-body">
 
-   <div class ="container">
-          <form method="post" action="" class="formDiv" autocomplete="on">
+          <form action="" class="formDiv" method="post"autocomplete="on">     
             
-            <table class="tabelForm">
-                <tr>
-                <td>   <input type="text" id="password" name="password" placeholder="كلمة المرور" autocomplete="on" style=" width:400px" required  ></td>
-                <td><label style="color:red">*&nbsp; </label><label for="password"> :ادخل كلمة المرور  </label></td>
-              </tr>
-			    <tr>
-                <td>   <input type="text" id="password" name="confirmPassword" placeholder="كلمة المرور" autocomplete="on" style=" width:400px" required  ></td>
-                <td><label style="color:red">*&nbsp; </label><label for="email"> :تأكيد كلمة المرور  </label></td>
-              </tr>
-                <tr>
-               <td> <input type="submit" value="حفظ" class="btn btn-primary" center id="submit"  name="submitPassword"> </td>
-									       <?php
-	   if(isset($_GET['key'])){
-$email=$_GET['key'];
-if (isset($_POST['password']) && isset($_POST['confirmPassword'])){
- $password=$_POST['password'];
-$confirm_password = $_POST['confirmPassword'];
+            <?php  if ($masg !="") echo $masg."<br>"; ?>
+      	<div class="col-md-12">
+    <div class="form-group form-group-lg">
+    <label for="txtMaxAttendee" class="control-label"> كلمة السر :<label style="color:red">*&nbsp; </label> </label>
+	<input type="password" class="form-control" id="password"  name="password" placeholder="       أدخل كلمة السر" autocomplete="on" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" required title="يجب أن تحتوي على الأقل على 8 أحرف و حروف صغيرة و كبيرة" required   >
+  </div>
+   </div>
+	<div class="col-md-12">
+    <div class="form-group form-group-lg">
+     <label for="txtLocation" class="control-label">تأكيد كلمة السر :</label><label style="color:red">*&nbsp; </label>
+	<input type="password" class="form-control" id="confirm_password" name="confirmPassword" placeholder="       تأكيد كلمة السر "  autocomplete="off" required >
+	</div>
+   </div>
+	 <input type="submit" value="تغيير كلمة المرور " name="submit" class="btn btn-nor-primary btn-lg enable-overlay">
+									 
+         </form>
 
-if($password == $confirm_password ){
-$hashedPassword = password_hash($password, PASSWORD_BCRYPT);
-$conn = mysqli_connect('localhost','root','','tactic');
- $select=mysqli_query($conn,"update account set passwordOrg='$hashedPassword' WHERE `emailOrg` = '$email'");
-if ($select){
-	             
-        header('Location:LogIn.php?edit=true');
-        exit();
-        } 
+      </div>
+    </div>
+  </div>
+  </div>
+ 
 
-
-}
-else {
-	echo " <div class='alert alert-danger alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert'>&times;</button>
-         <strong> فشل</strong>  من تطابق كلمة المرور
-       </div> ";}
-	
-	
-}	
-}
-					else{header('Location:LogIn.php');}
-?>
-              </tr> 
-
-       
-
-              </table>
-
-              </form>
-
-  
-    </div> 
-
-
-    </div> 
-  
+  <!-- end of  register inputs -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/appjs/event.js"></script>
+  <script src="js/appjs/common.js"></script>
 
 </body>
+
 </html>
