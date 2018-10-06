@@ -1,6 +1,6 @@
 <?php
 //conect to database 
-require_once('php/connectTosql.php');
+require_once '../php/connectTosql.php';
 
  $sql = "SELECT se.nameSubEvent,e.name_Event,se.event_ID,se.subevent_ID,e.event_ID 
         FROM event e INNER JOIN subevent se ON e.event_ID = se.event_ID";
@@ -36,6 +36,7 @@ if (isset($_GET['eventId']) && $_GET['eventId'] != '') { //retreive the hidden i
 
 <!DOCTYPE html>
 <html>
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -43,18 +44,15 @@ if (isset($_GET['eventId']) && $_GET['eventId'] != '') { //retreive the hidden i
 <!-- lobrary of icon  fa fa- --->
 <title>إدارة الأحداث الفرعية</title>
 
-<link href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' rel='stylesheet' type='text/css' />
-<link href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' rel='stylesheet' type='text/css' />
-<link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
-
-<link rel="stylesheet" href="css/layouts/custom.css">
-<link rel="stylesheet" href="css/font-awesome.min.css">
-<link rel="stylesheet" href="css/icon.css">
-<link rel="stylesheet" href="css/bootstrap.min.css">
-<link rel="stylesheet" href="css/main-rtl.css">
-
-<link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
-
+<link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
+  <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/layouts/custom.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="../css/icon.css">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/main-rtl.css">
+  <link rel="shortcut icon" href="../image/logo.ico" type="image/x-icon" />
 
 <!-------------------------------------------------------------------------->
 
@@ -77,15 +75,19 @@ if (isset($_GET['eventId']) && $_GET['eventId'] != '') { //retreive the hidden i
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
+				
                 <label for="eventName" class="control-label"> اسم الحدث الفرعي</label>
-                <input type="text" class="form-control" id="txtSubEventName" name="SubeventName" >
+				  <div class="form-inline">
+                <input type="text" class="form-control" id="txtSubEventName" name="SubeventName" style="width:430px" >
+				<input type="submit" value="بحث" name="update" class="btn btn-nor-primary btn-sm" style="width:165px">
               </div>
             </div>
+			  </div>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                 <input type="submit" value="بحث" name="update" class="btn btn-nor-primary btn-sm">
-                 <a class="btn btn-nor-primary btn-sm" href="addSubEvent.php"> إضافة حدث فرعي</a>
+                
+                 <a class="btn btn-nor-primary btn-sm" href="addSubEvent.php">إضافة حدث فرعي</a>
 
               </div>
             </div>
@@ -138,24 +140,24 @@ if (isset($_GET['eventId']) && $_GET['eventId'] != '') { //retreive the hidden i
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">إغلاق</button>
         <button type="button" id="btnConfirmDelete" class="btn btn-primary">تأكيد الحذف</button>
-      </div>
+     </div>
     </div>
   </div>
 </div>
+</div>
+  <script src="../js/jquery.min.js"></script>
+  <script src="../js/jquery.validate.min.js"></script>
+  <script src="../js/bootstrap.min.js"></script>
+  <script src="../js/appjs/event.js"></script>
+  <script src="../js/appjs/common.js"></script>
+  
 
-      
-
-<script src="js/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/appjs/event.js"></script>
-    <script src="js/appjs/common.js"></script>
-
-    <script>
-      $(function () {
-        $("#includedContent").load("php/TopNav.php");
-        $("#includedContent2").load("HTML/rightNav.html");
-      });
-    </script>
+  <script>
+    $(function () {
+      $("#includedContent").load("../php/TopNav.php");
+      $("#includedContent2").load("../HTML/rightNav.html");
+    });
+  </script>
 
 </body>
 
