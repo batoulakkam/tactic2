@@ -1,5 +1,5 @@
 <?php
-require_once('../php/connectTosql.php');
+require_once('php/connectTosql.php');
 
 $query = mysqli_query($con,"SELECT * FROM event")or die(mysqli_error());
 
@@ -9,7 +9,7 @@ if(isset($_POST['add'])){
   $disSub = $_POST["subDescription"];
   $sql = mysqli_query($con, "INSERT INTO subevent ( subevent_ID, event_ID, nameSubEvent ,description_subevent) VALUES ('','$eventID','$subName','$disSub')")or die(mysqli_error());
 if($sql){
-header("location:manageSubEvent.php");
+header("location: /tactic/manageSubEvent.php");
       echo " <div class='alert alert-success alert-dismissible'>
   <button type='button' class='close' data-dismiss='alert'>&times;</button>
    <strong> تم </strong>  أضافة حدث فرعي جديد 
@@ -32,17 +32,19 @@ header("location:manageSubEvent.php");
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
+
 <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
   <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
   <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
-  <link rel="stylesheet" href="../css/layouts/custom.css">
+  <link rel="stylesheet" href="css/layouts/custom.css">
   <link rel="stylesheet" href="css/font-awesome.min.css">
-  <link rel="stylesheet" href="../css/icon.css">
-  <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/main-rtl.css">
-  <link rel="shortcut icon" href="../image/logo.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="css/icon.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main-rtl.css">
 
- 
+  <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+
+    <script src="jquery.js"></script> 
     
 </head>
 
@@ -90,31 +92,28 @@ header("location:manageSubEvent.php");
               </div>
             </div>
 
-           <a  href="manageSubEvent.php"  class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
+           <a  href="/tactic/manageEvent.php"  class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
             <input type="submit" value="إضافة" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
 
-       </form>
+        </div>
+        </form>
 
       </div>
     </div>
   </div>
   </div>
- 
+  </div>
+  </div>
 
-  <script src="../js/jquery.min.js"></script>
-  <script src="../js/jquery.validate.min.js"></script>
-  <script src="../js/bootstrap.min.js"></script>
-  <script src="../js/appjs/event.js"></script>
-  <script src="../js/appjs/common.js"></script>
-  
-
+  <!-- end of  register inputs -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
   <script>
     $(function () {
-      $("#includedContent").load("../php/TopNav.php");
-      $("#includedContent2").load("../HTML/rightNav.html");
+      $("#includedContent").load("php/TopNav.php");
+      $("#includedContent2").load("HTML/rightNav.html");
     });
   </script>
 
 </body>
-
 </html>

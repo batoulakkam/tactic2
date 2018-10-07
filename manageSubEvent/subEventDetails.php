@@ -1,9 +1,9 @@
 <?php
-require_once '../php/connectTosql.php';
+require_once 'php/connectTosql.php';
 
 $query = null;
-if (isset($_GET['eventid']) && $_GET['eventid'] != '') {
- $eventId = $_GET['eventid'];
+if (isset($_GET['subeventid']) && $_GET['subeventid'] != '') {
+ $eventId = $_GET['subeventid'];
  $query   = mysqli_query($con, "SELECT * FROM subevent  WHERE subevent_ID ='$eventId' ") or die(mysqli_error($con));
  if ($query == null) {
 
@@ -37,29 +37,29 @@ if ($query) {
     <!-- lobrary of icon  fa fa- --->
 
 
-<link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
-  <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
-  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
-  <link rel="stylesheet" href="../css/layouts/custom.css">
-  <link rel="stylesheet" href="css/font-awesome.min.css">
-  <link rel="stylesheet" href="../css/icon.css">
-  <link rel="stylesheet" href="../css/bootstrap.min.css">
-  <link rel="stylesheet" href="../css/main-rtl.css">
-  <link rel="shortcut icon" href="../image/logo.ico" type="image/x-icon" />
+    <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
+    <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
+    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/layouts/custom.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/icon.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/main-rtl.css">
 
-
+    <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
 
 
     <!-------------------------------------------------------------------------->
 
 </head>
+
 <body>
-  <div id="includedContent"></div>
-  <div id="includedContent2"></div>
+    <div id="includedContent"></div>
+    <div id="includedContent2"></div>
     <div class="mainContent">
-      <div class="container">
-         <div class="panel panel-primary">
-             <div class="panel-heading">
+        <div class="container">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
                     <h4 class="panelTitle">تفاصيل حدث فرعي </h4>
                 </div>
                 <div class="panel-body">
@@ -84,28 +84,28 @@ if ($query) {
                             </div>
                         </div>
 
-                        <a href="manageSubEvent.php" class="bodyform btn btn-nor-danger btn-sm">عودة</a>
-       </form>
+                        <a href="/tactic/manageSubEvent.php" class="bodyform btn btn-nor-danger btn-sm">عودة</a>
+                </div>
+                </form>
 
-      </div>
+            </div>
+        </div>
     </div>
-  </div>
-  </div>
- 
+    </div>
+    </div>
+    </div>
 
-  <script src="../js/jquery.min.js"></script>
-  <script src="../js/jquery.validate.min.js"></script>
-  <script src="../js/bootstrap.min.js"></script>
-  <script src="../js/appjs/event.js"></script>
-  <script src="../js/appjs/common.js"></script>
-  
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/appjs/event.js"></script>
+    <script src="js/appjs/common.js"></script>
 
-  <script>
-    $(function () {
-      $("#includedContent").load("../php/TopNav.php");
-      $("#includedContent2").load("../HTML/rightNav.html");
-    });
-  </script>
+    <script>
+        $(function () {
+            $("#includedContent").load("php/TopNav.php");
+            $("#includedContent2").load("HTML/rightNav.html");
+        });
+    </script>
 
 </body>
 
