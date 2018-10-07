@@ -134,10 +134,12 @@ CREATE TABLE `event` (
 
 CREATE TABLE `prize` (
   `Prize_ID` int(11) NOT NULL,
+  `namePrize` varchar(100) NOT NULL,
   `numOfPrize` int(11) NOT NULL,
   `event_ID` int(11) NOT NULL,
   `subevent_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 -- --------------------------------------------------------
 
 --
