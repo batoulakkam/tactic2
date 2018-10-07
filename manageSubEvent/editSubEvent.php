@@ -1,6 +1,6 @@
 <?php
 require_once 'php/connectTosql.php';
-
+$message="";
     if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
       // this section for get the event name fro DB
           $query = mysqli_query($con,"SELECT * FROM event")or die(mysqli_error());
@@ -15,14 +15,14 @@ require_once 'php/connectTosql.php';
             if($sql)
             header("location: /tactic/manageSubEvent.php");
                       else{
-                    echo " <div class='alert alert-danger alert-dismissible'>
+                        $message=" <div class='alert alert-danger alert-dismissible'>
                 <button type='button' class='close' data-dismiss='alert'>&times;</button>
                 <strong> فشل</strong>   عملية التعديل  يرجى التحقق
               </div> ";
                 } 
             } //end if (isset($_POST['update']) )
      } else {
-      echo " <div class='alert alert-danger alert-dismissible'>
+      $message= " <div class='alert alert-danger alert-dismissible'>
              <button type='button' class='close' data-dismiss='alert'>&times;</button>
               <strong> يرجى</strong>   تثبيت الايميل لكي تتمكن من أضافة حدث
             </div> ";
@@ -115,6 +115,9 @@ require_once 'php/connectTosql.php';
         <div class="panel-body">
 
           <form action="" class="formDiv" method="post">
+          <?php 
+            echo $message;
+            ?>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">

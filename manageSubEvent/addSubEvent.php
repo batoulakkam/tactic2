@@ -1,7 +1,11 @@
 <?php
 require_once('php/connectTosql.php');
+$message="";
+if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
+$organizerid=$_SESSION['organizerID'];
+  // this section for get the event name fro DB
+  $query = mysqli_query($con,"SELECT * FROM event where organizer_ID=  '$organizerid' ")or die(mysqli_error($con));
 
-$query = mysqli_query($con,"SELECT * FROM event")or die(mysqli_error());
 
 if(isset($_POST['add'])){
   $eventID = $_POST["addSubEvent"];
@@ -10,18 +14,21 @@ if(isset($_POST['add'])){
   $sql = mysqli_query($con, "INSERT INTO subevent ( subevent_ID, event_ID, nameSubEvent ,description_subevent) VALUES ('','$eventID','$subName','$disSub')")or die(mysqli_error());
 if($sql){
 header("location: /tactic/manageSubEvent.php");
-      echo " <div class='alert alert-success alert-dismissible'>
-  <button type='button' class='close' data-dismiss='alert'>&times;</button>
-   <strong> تم </strong>  أضافة حدث فرعي جديد 
- </div> ";}
+}
    else{
-       echo " <div class='alert alert-danger alert-dismissible'>
+    $message= " <div class='alert alert-danger alert-dismissible'>
   <button type='button' class='close' data-dismiss='alert'>&times;</button>
    <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
  </div> ";
   } 
 
-}
+}// end if(isset($_POST['add']))
+} else {
+  $message= " <div class='alert alert-danger alert-dismissible'>
+         <button type='button' class='close' data-dismiss='alert'>&times;</button>
+          <strong> يرجى</strong>   تثبيت الايميل لكي تتمكن من أضافة حدث
+        </div> ";
+ }
 
 ?>
 
@@ -62,6 +69,9 @@ header("location: /tactic/manageSubEvent.php");
         <div class="panel-body">
 
           <form action="" class="formDiv" method="post">
+          <?php 
+            echo $message;
+            ?>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
@@ -101,9 +111,7 @@ header("location: /tactic/manageSubEvent.php");
       </div>
     </div>
   </div>
-  </div>
-  </div>
-  </div>
+  
 
   <!-- end of  register inputs -->
   <script src="js/jquery.min.js"></script>

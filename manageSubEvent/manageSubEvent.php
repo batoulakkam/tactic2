@@ -1,11 +1,10 @@
 <?php
 //conect to database 
 require_once('php/connectTosql.php');
-
- $sql = "SELECT se.nameSubEvent,e.name_Event,se.event_ID,se.subevent_ID,e.event_ID 
-        FROM event e INNER JOIN subevent se ON e.event_ID = se.event_ID";
-
-$query = mysqli_query($con, $sql) or die(mysqli_error($con));
+$message="";
+if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
+  $organizerid=$_SESSION['organizerID'];
+  
 
 ///delete sub event
 if (isset($_GET['eventId']) && $_GET['eventId'] != '') { //retreive the hidden id in modal
@@ -29,7 +28,30 @@ if (isset($_GET['eventId']) && $_GET['eventId'] != '') { //retreive the hidden i
 } else {
  echo " Id is not set";
 }
+// Search for subevent and event name 
+if (isset($_GET['searshValue']) && $_GET['searshValue'] != '') {
+  $sershValue = $_GET['searshValue']; 
+  
+  $query = mysqli_query( $con, $sql = "SELECT se.nameSubEvent,e.name_Event,se.event_ID,se.subevent_ID,e.event_ID 
+  FROM event e INNER JOIN subevent se ON e.event_ID = se.event_ID
+  where e.organizer_ID = '$organizerid' and nameSubEvent like '%$sershValue%' or  e.name_Event like '%$sershValue%'"
+) or die(mysqli_error($con));
 
+ }// end Search 
+ // this query for present all sub event that related to organizer 
+  else {
+  $query = mysqli_query( $con, $sql = "SELECT se.nameSubEvent,e.name_Event,se.event_ID,se.subevent_ID,e.event_ID 
+  FROM event e INNER JOIN subevent se ON e.event_ID = se.event_ID
+  where e.organizer_ID = '$organizerid'"
+) or die(mysqli_error($con));
+ }
+
+}else {
+  $message= " <div class='alert alert-danger alert-dismissible'>
+         <button type='button' class='close' data-dismiss='alert'>&times;</button>
+          <strong> يرجى</strong>   تثبيت الايميل لكي تتمكن من أضافة حدث
+        </div> ";
+ }
 
 
 ?>
@@ -74,11 +96,14 @@ if (isset($_GET['eventId']) && $_GET['eventId'] != '') { //retreive the hidden i
         <div class="panel-body">
 
           <form action="manageSubEvent.php" class="manageSubEventFrm" method="Get">
+            <?php 
+            echo $message;
+            ?>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> اسم الحدث الفرعي</label>
-                <input type="text" class="form-control" id="txtSubEventName" name="SubeventName" placeholder="بحث ...">
+                <label for="eventName" class="control-label">بحث </label>
+                <input type="text" class="form-control" id="txtSubEventName" name="searshValue" placeholder="بحث باسم الحث او الحدث الفرعي  ...">
               </div>
             </div>
 
