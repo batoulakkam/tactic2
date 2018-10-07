@@ -135,9 +135,9 @@ CREATE TABLE `event` (
 CREATE TABLE `prize` (
   `Prize_ID` int(11) NOT NULL,
   `numOfPrize` int(11) NOT NULL,
-  `event_ID` int(11) NOT NULL
+  `event_ID` int(11) NOT NULL,
+  `subevent_ID` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
 -- --------------------------------------------------------
 
 --
@@ -242,8 +242,8 @@ ALTER TABLE `event`
 --
 ALTER TABLE `prize`
   ADD PRIMARY KEY (`Prize_ID`),
-  ADD KEY `prize_ibfk_1` (`event_ID`);
-
+  ADD KEY `prize_ibfk_1` (`event_ID`),
+  ADD KEY `prize_ibfk_2` (`subevent_ID`);
 --
 -- Indexes for table `qr`
 --
@@ -365,7 +365,8 @@ ALTER TABLE `event`
 -- Constraints for table `prize`
 --
 ALTER TABLE `prize`
-  ADD CONSTRAINT `prize_ibfk_1` FOREIGN KEY (`event_ID`) REFERENCES `event` (`event_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `prize_ibfk_1` FOREIGN KEY (`event_ID`) REFERENCES `event` (`event_ID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `prize_ibfk_2` FOREIGN KEY (`subevent_ID`) REFERENCES `subevent` (`subevent_ID`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `qr`
