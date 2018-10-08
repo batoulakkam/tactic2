@@ -1,331 +1,151 @@
 <?php
+// connect to DB
 require_once 'php/connectTosql.php';
-// لا تنسي تشيلي الكومنت عن السيشين 
-//if(isset($_SESSION['orgEmail']) && !empty($_SESSION['password'])) {
- //  header('Location:LogIn.php');
-// $organizerID = $_SESSION['organizerID'];
-// الكويري هيك لازم تكون 
-//("SELECT name_Event FROM `event` WHERE `organizer_ID` = '$organizerID'")
-//$query = mysqli_query($conn, "SELECT name_Event FROM `event`") or die(mysqli_error($conn));
-$query = mysqli_query($con, "SELECT event_ID,name_Event FROM event ") or die(mysqli_error($con));
 
-?>
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<title>إضافة جائزة  </title>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-  <link href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' rel='stylesheet' type='text/css'/>
-    <link href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' rel='stylesheet' type='text/css'/>
-    <link rel="stylesheet" href="css/layouts/custom.css">
+//if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
+  // this section for get the event name fro DB
+  $query = mysqli_query($con,"SELECT * FROM event")or die(mysqli_error());
     
-    <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
-    <!-- lobrary of icon  fa fa- --->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
- <!-- lobrary of style bootstrab 3  --->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
- <!-- lobrary of style bootstrab 4  --->
-
-    
-    <!-------------------------------------------------------------------------->
-
-    <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
-
-</head>
-<body>
-<div class ="headerNav">
-               <nav class="navbar navbar-inverse"  data-offset-top="10">
-                
-                <div class="container-fluid">
-       
-                 
-                  <ul class="nav navbar-nav" >
-                    <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> تسجيل الخروج</a></li>
-                             
-                    
-                    <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> <span class="caret"></span> اسم صاحب الحساب <span class=" fa fa-user"></span></a>
-                      <ul class="dropdown-menu">
-                        <li><a href="#">تعديل كلمة المرور <span class="fa fa-lock"></span></a></li>
-                        <li><a href="#">تعديل المعلومات الشخصية  <span class=" fa fa-user"></span> </a></li>
-                        
-                      </ul>
-                    </li>
-                  </ul>
-                  <div class="navbar-header navbar-right  " >
-                      <button class="navbar-brand titleNav fa fa-bars btn" onclick="toggleMenu()"></button>
-                      <a class="navbar-brand titleNav" href="#" style ="color:cornflowerblue">تكتيك</a>
-                    </div>
-                </div>
-              </nav>
-    
-    
-    </div>
-<div>
-    
-  <nav class="rightNav" id="menu-box" style="display: none">
-     
-    <div class="navbar-inverse " >
-
-            <ul class="navbar-inverse">
-                    
-                 <!------------------------------------------------------------------------------------------------>
-                                
-                            <div class="panel-heading " class="panel-group" class="pure-menu">       
-                <li class="pure-menu-item" class="panel-title"  ><a  class="pure-menu-link" data-toggle="collapse" href="#collapse1"><span class="fa fa-angle-double-down arrowSpan" ></span>   إدارة الأحداث <span class="fa fa-sitemap"></span>  </a></li>  
-                            </div> 
-                            <div id="collapse1" class="panel-collapse collapse">
-                            <ul class="list-group">
-                                <li class="pure-menu-item "class="list-group-item"><a href="addEvent.html" class="pure-menu-link"> إضافة حدث  <span class="fa fa-plus-square"></span> </a></li>
-                                <li class="pure-menu-item " class="list-group-item"><a href="deleteEvent.html" class="pure-menu-link">  حذف حدث <span  class=" paddingElement fa fa-trash"> </span> </a></li>
-                                <li class="pure-menu-item " class="list-group-item"><a href="editEvent.html" class="pure-menu-link"> تعديل حدث   <span  class=" fa fa-edit"></span></a></li>
-                                <li class="pure-menu-item " class="list-group-item"><a href="showEvent.html" class="pure-menu-link"> عرض الأحداث <span  class="fa fa-eye">  </span> </a></li>
-                            </ul>
-                           </div>
-                
-                
-                <!------------------------------------------------------------------------------------------>
-               
-                                
-                            <div class="panel-heading " class="panel-group" class="pure-menu">       
-                <li class="pure-menu-item" class="panel-title" ><a  class="pure-menu-link" data-toggle="collapse" href="#collapse2"><span class="fa fa-angle-double-down"></span>  إدارة الأحداث الفرعية <span class="fa fa-sitemap"></span> </a></li>  
-                            </div> 
-                            <div id="collapse2" class="panel-collapse collapse">
-                            <ul class="list-group">
-                                    <li class="pure-menu-item "class="list-group-item"><a href="addSubEvent.html" class="pure-menu-link"> إضافة حدث فرعي  <span class="fa fa-plus-square"></span> </a></li>
-                                    <li class="pure-menu-item " class="list-group-item"><a href="editSubEvent.html" class="pure-menu-link">  حذف حدث فرعي <span  class=" paddingElement fa fa-trash"> </span> </a></li>
-                                    <li class="pure-menu-item " class="list-group-item"><a href="deleteSubEvent.html" class="pure-menu-link"> تعديل حدث فرعي   <span  class=" fa fa-edit"></span></a></li>
-                            </ul>
-                           </div>
-                
-                <!------------------------------------------------------------------------------------------>
-                                           <div class="panel-heading " class="panel-group" class="pure-menu">       
-                <li class="pure-menu-item" class="panel-title" ><a  class="pure-menu-link" data-toggle="collapse" href="#collapse3"> <span class="fa fa-angle-double-down"></span> إدارة البطاقات التعريفية <span class="	fa fa-id-badge"></span>  </a></li>  
-                            </div> 
-                            <div id="collapse3" class="panel-collapse collapse">
-                            <ul class="list-group">
-                                <li class="pure-menu-item "class="list-group-item"><a href="#" class="pure-menu-link"> إضافة بطاقة  <span class="fa fa-plus-square"></span> </a></li>
-                                <li class="pure-menu-item " class="list-group-item"><a href="#" class="pure-menu-link">  حذف بطاقة <span  class=" paddingElement fa fa-trash"> </span> </a></li>
-                                <li class="pure-menu-item " class="list-group-item"><a href="#" class="pure-menu-link"> تعديل بطاقة   <span  class=" fa fa-edit"></span></a></li>
-                                <li class="pure-menu-item " class="list-group-item"><a href="#" class="pure-menu-link"> طباعة بطاقة   <span  class=" fa fa-print"></span></a></li>
-
-                            </ul>
-                           </div>
-                
-                
-                <!------------------------------------------------------------------------------------------>
-            
-
-                 <div class="panel-heading " class="panel-group" class="pure-menu">       
-                <li class="pure-menu-item" class="panel-title" ><a  class="pure-menu-link" data-toggle="collapse" href="#collapse4"><span class="fa fa-angle-double-down"></span>  إدارة الشهادات <span class="	fa fa-drivers-license"></span> </a></li>  
-                            </div> 
-                            <div id="collapse4" class="panel-collapse collapse">
-                            <ul class="list-group">
-                                <li class="pure-menu-item "class="list-group-item"><a href="#" class="pure-menu-link"> إضافة شهادة <span class="fa fa-plus-square"></span> </a></li>
-                                <li class="pure-menu-item " class="list-group-item"><a href="#" class="pure-menu-link"> حذف شهادة  <span  class=" paddingElement fa fa-trash"> </span> </a></li>
-                                <li class="pure-menu-item " class="list-group-item"><a href="#" class="pure-menu-link"> تعديل شهادة  <span  class=" fa fa-edit"></span></a></li>
-                                <li class="pure-menu-item " class="list-group-item"><a href="#" class="pure-menu-link"> طباعة شهادة  <span  class=" fa fa-print"></span></a></li>
-
-                            </ul>
-                           </div>
-                <!------------------------------------------------------------------------------------------>
-                                                
-                <div class="panel-heading " class="panel-group" class="pure-menu">       
-                        <li class="pure-menu-item " class="panel-title" ><a  class="pure-menu-link" data-toggle="collapse" href="#collapse5"><span class="fa fa-angle-double-down arrowSpan"></span>   ادارة نموذج التسجل <img src="../image/registform.png" ></a></li>  
-                                    </div> 
-                                    <div id="collapse5" class="panel-collapse collapse">
-                                    <ul class="list-group">
-                                            <li class="pure-menu-item "class="list-group-item"><a href="#" class="pure-menu-link"> انشاء نموذج التسجيل  <span class="fa fa-plus-square"></span> </a></li>
-                                            <li class="pure-menu-item " class="list-group-item"><a href="#" class="pure-menu-link">  حذف النموذج <span  class=" paddingElement fa fa-trash"> </span> </a></li>
-                                            <li class="pure-menu-item " class="list-group-item"><a href="#" class="pure-menu-link">  تعديل النموذج  <span  class=" fa fa-edit"></span></a></li>
-                                    </ul>
-                                   </div>
-                        
-                        
-                 <!------------------------------------------------------------------------------------------>
-                 <div class="panel-heading " class="panel-group" class="pure-menu">       
-                        <li class="pure-menu-item" class="panel-title" ><a  class="pure-menu-link" data-toggle="collapse" href="#collapse6"><span class="fa fa-angle-double-down"></span>   إدارة الجوائز <span class= "fa fa-gift"></span></a></li>  
-                                    </div> 
-                                    <div id="collapse6" class="panel-collapse collapse">
-                                    <ul class="list-group">
-                                        <li class="pure-menu-item "class="list-group-item"><a href="addPrize.html" class="pure-menu-link"> إضافة جائزة  <span class="fa fa-plus-square"></span> </a></li>
-                                        <li class="pure-menu-item " class="list-group-item"><a href="deletePrize.html" class="pure-menu-link">  حذف جائزة <span  class=" paddingElement fa fa-trash"> </span> </a></li>
-                                        <li class="pure-menu-item " class="list-group-item"><a href="editPrize.html" class="pure-menu-link"> تعديل جائزة   <span  class=" fa fa-edit"></span></a></li>
-                                        <li class="pure-menu-item " class="list-group-item"><a href="chooseWinner" class="pure-menu-link">اختار الفائز </a></li>
-                                    </ul>
-                                   </div>
-                 <!------------------------------------------------------------------------------------------>
-                 <div class="panel-heading " class="panel-group" class="pure-menu">       
-                        <li class="pure-menu-item" class="panel-title" ><a  class="pure-menu-link" data-toggle="collapse" href="#collapse7"><span class="fa fa-angle-double-down"></span> تتبع الحضور  <img src="../image/trackattendee.png">  </a></li>  
-                                    </div> 
-                                    <div id="collapse7" class="panel-collapse collapse">
-                                    <ul class="list-group">
-                                        <li class="pure-menu-item "class="list-group-item"><a href="#" class="pure-menu-link">  تتبع مباشر  <span class="fa fa-plus-square"></span> </a></li>
-                                       </ul>
-                                   </div>
-                <!------------------------------------------------------------------------------------------>
-                <div class="panel-heading " class="panel-group" class="pure-menu"> 
-                
-                <li class="pure-menu-item"><a href="#" class="pure-menu-link">إرسال بريد الكتروني <span class="fa fa-envelope" ></span></a></li>
-               </div>
-               <div class="panel-heading " class="panel-group" class="pure-menu"> 
-                <li class="pure-menu-item"><a href="#" class="pure-menu-link">التقيمات <span class="fa fa-star-half-o"></span> </a></li>
-                </div>
-                <div class="panel-heading " class="panel-group" class="pure-menu"> 
-                <li class="pure-menu-item"><a href="#" class="pure-menu-link">الإحصائيات <span class="fa fa-bar-chart" ></span> </a></li>
-                </div>
-
-
-
-                       
-
-
-            </ul>
-        </div>
-  </nav>
-
-  
-  <div class="mainContent">
-    <div class="pageTitel">
-       <h1> إضافة جائزة </h1>
-          </div>
-    <div class ="container">
-        <form action="" class="formDiv" method="post">
-            
-            <table class="tabelForm">
-    <tr>
-	
-	
-    
-    <td class="rightTd">  <input type="text" id="sname" name="sname" placeholder=" أدخل اسم الجائزة" style=" width:400px" required dir ="rtl"></td>
-      <td class="leftTd">  <label for="sname">: اسم الجائزة </label></td>
-  </tr>
-  
-
-  
-  
-  
-<tr>  
-<td class="rightTd">
-<select id='prizeNum' name="prizeNum"></select>​
-<script>
-var select = '';
-for (i=1;i<=100;i++){
-    select += '<option val=' + i + '>' + i + '</option>';
-}
-$('#prizeNum').html(select);
-</script>
-</td>
- <td class="leftTd">  <label for="fname">:  عدد الجوائز </label></td>
-</tr>
-<tr>
-    <td> 
-        <select id="eventID" name="eventID" style=" width:400px"  dir="rtl">
-       <?php
-			while ($row = mysqli_fetch_array($query)):
-			echo "<option value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>";
-    ?>
-	     <?php endwhile;?>
-     
-            </select></td>
-                <td class="leftTd">  <label for="fname">:  الحدث الرئيسي </label></td>
-                
-                </tr>
-				
-				 
-				 <tr>
-    <td> 
-        <select id="addPrizeS" name="addPrizeS" style=" width:400px"  dir="rtl">
-         
-     
-            </select></td>
-                <td class="leftTd">  <label for="fname">:  الحدث الفرعي </label></td>
-                
-                </tr>
-
-				
-  <tr>
-   <td> <input type="reset" value="الغاء" class="btn btn-danger" >
-   <input type="submit" value="إضافة" name="addPrize" data-toggle="tooltip" data-placement="bottom"  class="btn btn-primary" >
-     </td>
-
-  </tr>
-                
-			             <?php
-       if (isset($_POST['addPrize'])){
-        $eventID = $_POST['eventID'];
-		$prizeName = $_POST['sname'];
+$eventID="";
+$prizeName="";
+$subName = "";
+if (isset($_POST['add'])) {
+        $subName = $_POST['SubEventName'];
+        $eventID = $_POST['eventName'];
+		$prizeName = $_POST['prizeName'];
         $numOfPrize = $_POST['prizeNum']; 
-           $sql = mysqli_query($con, "INSERT INTO prize (Prize_ID,prizeName, numOfPrize,event_ID) VALUES ('','$prizeName','$numOfPrize','$eventID')")or die(mysqli_error($con));
-       		 if ($sql != null) {
-        echo "<div class='alert alert-success ' role='alert'>
-                تمت الاضافة بنجاح
-    </div>"; }
-           
-         else{
-             echo " <div class='alert alert-danger alert-dismissible'>
+      //$IDT = $_SESSION['organizerID'];
+      $sql = mysqli_query($con, "INSERT INTO prize(Prize_ID,namePrize,numOfPrize,event_ID,subevent_ID
+)VALUES ('','$prizeName','$numOfPrize','$eventID','$subName')")or die(mysqli_error($con));
+
+  
+   if ($sql) {
+    header("location:managePrize.php");
+   exit;
+   } else {
+    echo " <div class='alert alert-danger alert-dismissible'>
         <button type='button' class='close' data-dismiss='alert'>&times;</button>
          <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
        </div> ";
-        }
+   }
+  }
+// else {
+ //echo " <div class='alert alert-danger alert-dismissible'>
+       //<button type='button' class='close' data-dismiss='alert'>&times;</button>
+        //<strong> يرجى</strong>   تثبيت الايميل لكي تتمكن من أضافة حدث
+       //</div> "; }
 
-       }
-        
-        
-        
-        
-        
-        ?>	
+?>
+
+
+
+
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+  <title>إضافة جائزة </title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
  
-</table>
-        
-  </form>
- 
-        
-        
-        
-               
-    
-    </div>        
+
+
+  <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
+  <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
+  <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/layouts/custom.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/icon.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/main-rtl.css">
+
+  <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
+
+
+  <!-------------------------------------------------------------------------->
+
+</head>
+
+<body>
+  <div id="includedContent"></div>
+  <div id="includedContent2"></div>
+  <div class="mainContent">
+    <div class="container">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h4 class="panelTitle"> إضافة جائزة </h4>
+        </div>
+        <div class="panel-body">
+
+          <form action="" class="formDiv" method="post">
+
+            <div class="col-md-12">
+                <div class="form-group form-group-lg">
+                <label for="eventName" class="control-label"> اسم الجائزة</label>
+                <input type="text" class="form-control" id="prizeName"  name="prizeName"
+                  required>
+              </div>
+            </div>
+          <div class="col-md-12">
+              <div class="form-group form-group-lg">
+                   <label for="txtMaxAttendee" class="control-label"> عدد الجوائز</label>
+                 <input type="number" class="form-control" id="txtSubEventName"  name="prizeNum"
+                  required>
+                  </div>
+                 </div>
+              
+
+               <div class="col-md-12">
+              <div class="form-group form-group-lg">
+                <label for="eventName" class="control-label"> اسم الحدث</label>
+                <select class="form-control" id="eventName" name="eventName" >
+                  <?php
+                  while ($row = mysqli_fetch_array($query)):
+                  echo "<option value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>";
+                  ?>
+                  <?php endwhile;?>
+     
+                </select>
+              </div>
+            </div>
+                <div class="col-md-12">
+              <div class="form-group form-group-lg">
+                 <label for="eventName" class="control-label"> اسم الحدث الفرعي</label>
+                <select class="form-control" id="SubEventName" name="SubEventName" >
+                 
+     
+                </select>
+              </div>
+            </div>
+
+     
+           
+
+           <a  href="/tactic/managePrize.php"  class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
+            <input type="submit" value="إضافة" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
+
+        </div>
+        </form>
+
+      </div>
+    </div>
   </div>
-</div>
-    <script type= 'text/javascript' src="jquery.js">
-    setInterval(function(){
-    $('get').load('edit.php');   
-            
-    },1000);
-    </script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js">
+  </div>
+  </div>
+  </div>
 
-    
-    </script>
-    <div class = 'get'></div>
-    <script>
+  <!-- end of  register inputs -->
+  <script src="js/jquery.min.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script>
+  // this part for call navBar
     $(function () {
-        // هنا اقوم بعمل تحقق اذا تم تغيير قيمة القائمة الخاصة بالدول
-       $('#eventID').on("change",function(){
-           // اهنا جلبت رقم الدولة حسب ما اختاره المتسخدم عند تغيير القائمة
-           var dropValue = $('#eventID ').val();
-           $.ajax({
-            url: 'edit.php',
-            type: "POST",
-            data:{value:dropValue},
-            success: function (data) {
-          // console.log(data);
-             $('#addPrizeS').html(data);
-
-            }
-        });
-
-       });
+      $("#includedContent").load("php/TopNav.php");
+      $("#includedContent2").load("HTML/rightNav.html");
     });
+  </script>
 
-
-</script>
-<script src="js/javaScriptfile.js"></script>
 </body>
 </html>
