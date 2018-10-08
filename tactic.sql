@@ -78,10 +78,10 @@ CREATE TABLE `attendee` (
 
 CREATE TABLE `badge` (
   `badge_ID` int(11) NOT NULL,
-  `badge_templete` text NOT NULL,
-  `badge_type` varchar(6) NOT NULL,
+  `badge_templete` mediumtext NOT NULL,
+  `badge_type` varchar(20) NOT NULL,
   `event_ID` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
