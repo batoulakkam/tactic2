@@ -1,56 +1,68 @@
 <?php
 // connect to DB
 require_once 'php/connectTosql.php';
-
+$message="";
 if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
+  $organizerid=$_SESSION['organizerID'];
   // this section for get the event name fro DB
-  $query = mysqli_query($con,"SELECT * FROM event")or die(mysqli_error());
+  $query = mysqli_query($con,"SELECT * FROM event where organizer_ID=  '$organizerid' ")or die(mysqli_error($con));
+    
+  if (isset($_POST['add'])) {
+    $eventName  = $_POST['eventName'];
+    $normalTemplete=$_POST['fileToUploadNormal'];
+    $VIPTemplete=$_POST['fileToUploadVIP']; 
+    $exitevent= false;
+    
+    if($normalTemplete=="" && $VIPTemplete=="" ) {
 
- if (isset($_POST['add'])) {
-$eventName  = $_POST['eventName'];
-$fileUpload=$_POST['fileToUpload'];
-$badgeType=$_POST['badgeType'];
+      $message=" <div class='alert alert-danger alert-dismissible'>
+                <button type='button' class='close' data-dismiss='alert'>&times;</button>
+                  يجب عليك اضافة قالب واحد على الاقل 
+                </div> ";}
 
-// Check if a badge of this type ($badgeType) has been attached
-$querycert = mysqli_query($con,"SELECT * FROM badge")or die(mysqli_error());
-if($row = mysqli_fetch_array($querycert)){
-  if($row['event_ID'] ==$eventName && $row['badge_type']==$badgeType){
-    echo " <div class='alert alert-danger alert-dismissible'>
-    <button type='button' class='close' data-dismiss='alert'>&times;</button>
-    <strong> فشل</strong>  عملية الاضافة بسب وجود بطاقة مسبقة من هذا النوع للحدث 
-    </div> "; 
-}/// end if($row['event_ID'] ==$eventName && $row['badge_type']==$badgeType)
-else{
-  // add info of new badge to the DB
-  $sql = mysqli_query($con, "INSERT INTO badge ( badge_ID, badge_templete, badge_type ,event_ID) 
-  VALUES ('','$fileUpload','$badgeType','$eventName')")or die(mysqli_error());
-  ///Check if add badge to DB has been done Successfully
-    if($sql)
-    header("location: /tactic/manageBadge.php");
-    else{
-      echo " <div class='alert alert-danger alert-dismissible'>
-    <button type='button' class='close' data-dismiss='alert'>&times;</button>
-    <strong> فشل</strong>  لم تتم عملية الاضافة بنجاح يرجى التحقق
-    </div> ";
-    } 
+                else {
+                  while ($row = mysqli_fetch_array($query)):
+                    if($row['event_ID']==$eventName){
+                    $message=" <div class='alert alert-danger alert-dismissible'>
+                       <button type='button' class='close' data-dismiss='alert'>&times;</button>
+                        لم تتم عملية اضافة قوالب بطاقات لان هناك قولب بطاقات لهذا الحدث
+                       </div> ";
+                       $exitevent= true;
+                      }
+
+                   endwhile;
+
+                  if (!$exitevent){
+                  $sql = mysqli_query($con, "INSERT INTO badge ( badge_ID, badge_noemal_templete , badge_VIP_templete ,event_ID) 
+                 VALUES ('','$normalTemplete','$VIPTemplete','$eventName')")or die(mysqli_error($con));
+                 ///Check if add badge to DB has been done Successfully
+                       if($sql)
+                       header("location: /tactic/manageBadge.php");
+                       else{
+                         $message=" <div class='alert alert-danger alert-dismissible'>
+                       <button type='button' class='close' data-dismiss='alert'>&times;</button>
+                       <strong> فشل</strong>  لم تتم عملية الاضافة  يرجى التحقق
+                       </div> "; } 
+                  }//end if (!$exitevent)
+                
 }
-}// end if($row = mysqli_fetch_array($query))
-
-} }else {
+}
+}
+ else {
  echo " <div class='alert alert-danger alert-dismissible'>
-        <button type='button' class='close' data-dismiss='alert'>&times;</button>
-         <strong> يرجى</strong>   تثبيت الايميل لكي تتمكن من أضافة حدث
-       </div> ";
-}
-
+       <button type='button' class='close' data-dismiss='alert'>&times;</button>
+        <strong> يرجى</strong>   تثبيت الايميل لكي تتمكن من أضافة حدث
+       </div> "; }
 ?>
+
+
 
 
 <!DOCTYPE html>
 <html lang="ar">
 
 <head>
-  <title>إضافة بطاقة تعرفية </title>
+  <title>إضافة بطاقة تعريفية </title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
@@ -81,12 +93,14 @@ else{
     <div class="container">
       <div class="panel panel-primary">
         <div class="panel-heading">
-          <h4 class="panelTitle"> إضافة بطاقة تعرفية </h4>
+          <h4 class="panelTitle"> إضافة بطاقة تعريفية </h4>
         </div>
         <div class="panel-body">
 
-          <form action="" class="formDiv" method="post">
-
+          <form action="" class="formDiv" method="post" >
+<?php 
+echo $message;
+?>
             <div class="col-md-12">
               <div class="form-group form-group-lg">
                 <label for="eventName" class="control-label"> اسم الحدث</label>
@@ -100,27 +114,26 @@ else{
                 </select>
               </div>
             </div>
+           
+
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> نوع البطاقة</label>
-                <select class="form-control" id="badgeType" name="badgeType" >
-                <option value="normal">  الاشخاص العاديين</option>
-                <option value="VIP">  الاشخاص المهمين</option>              
-                </select>
+                <label for="eventName" class="control-label">  ارفاق قالب الاشخاص العاديين</label>
+                <input type="file" class="form-control" id="fileToUploadNormal"  name="fileToUploadNormal" >
               </div>
             </div>
 
             <div class="col-md-12">
               <div class="form-group form-group-lg">
-                <label for="eventName" class="control-label"> ارفاق قالب البطاقة</label>
-                <input type="file" class="form-control" id="fileToUpload"  name="fileToUpload" required>
+                <label for="eventName" class="control-label"> ارفاق قالب الشخصيات الهامة</label>
+                <input type="file" class="form-control" id="fileToUploadVIP"  name="fileToUploadVIP" >
               </div>
             </div>
 
            
 
-           <a  href="/tactic/manageBadge.php"  class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
-            <input type="submit" value="إضافة" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
+           <a  href="/tactic/manageBadge.php"   class="bodyform btn btn-nor-danger btn-sm">عودة</a>
+            <input type="submit" value="اضافة" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
 
         </div>
         </form>
@@ -128,9 +141,8 @@ else{
       </div>
     </div>
   </div>
-  </div>
-  </div>
-  </div>
+  
+  
 
   <!-- end of  register inputs -->
   <script src="js/jquery.min.js"></script>

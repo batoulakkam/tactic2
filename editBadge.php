@@ -44,10 +44,6 @@ if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-
- 
-
-
   <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
   <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notokufiarabic.css' type='text/css' />
   <link rel="stylesheet" href="https://unpkg.com/purecss@1.0.0/build/pure-min.css" integrity="sha384-" crossorigin="anonymous">
@@ -83,8 +79,11 @@ if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
                 <select class="form-control" id="eventName" name="eventName" >
                 <?php
                   while ($row = mysqli_fetch_array($query)):
-                    if ($row['event_ID']== $eventId)
-                  echo "<option value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>";
+                    if ($evevtID  == $row['event_ID'] ) {
+                    
+                      echo "<option value='" . $row['event_ID'] . "'  selected='selected' >" . $row['name_Event'] . "</option>";}
+                      else
+                      echo "<option value='" . $row['event_ID'] . "' >" . $row['name_Event'] . "</option>";
                   ?>
                   <?php endwhile;?>
                 </select>
