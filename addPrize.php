@@ -1,10 +1,10 @@
 <?php
 // connect to DB
 require_once 'php/connectTosql.php';
-if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
+//if (isset($_SESSION['emailconfirm']) and $_SESSION['emailconfirm'] == 1) {
   // this section for get the event name fro DB
   $query = mysqli_query($con,"SELECT * FROM event ")or die(mysqli_error($con));
-    
+
 $eventID="";
 $prizeName="";
 $subName = "";
@@ -12,13 +12,14 @@ if (isset($_POST['add'])) {
         $subName = $_POST['SubEventName'];
         $eventID = $_POST['eventName'];
 		$prizeName = $_POST['prizeName'];
-        $numOfPrize = $_POST['prizeNum']; 
+        $numOfPrize = $_POST['prizeNum'];
       //$IDT = $_SESSION['organizerID'];
-      $sql = mysqli_query($con, "INSERT INTO prize(Prize_ID,namePrize,numOfPrize,event_ID,subevent_ID
-)VALUES ('','$prizeName','$numOfPrize','$eventID','$subName')")or die(mysqli_error($con));
-  
+$sql = mysqli_query($con, "INSERT INTO prize
+(namePrize,numOfPrize,event_ID,subevent_ID)
+VALUES ('$prizeName','$numOfPrize','$eventID','$subName')")or die(mysqli_error($con));
+
    if ($sql) {
-    header("location:mangePrize.php");
+    header("location:managePrize.php");
    exit;
    } else {
     echo " <div class='alert alert-danger alert-dismissible'>
@@ -27,12 +28,13 @@ if (isset($_POST['add'])) {
        </div> ";
    }
   }
-}
+/*}
  else {
  echo " <div class='alert alert-danger alert-dismissible'>
        <button type='button' class='close' data-dismiss='alert'>&times;</button>
         <strong> يرجى</strong>   تثبيت الايميل لكي تتمكن من أضافة حدث
        </div> "; }
+*/
 ?>
 
 
@@ -47,7 +49,7 @@ if (isset($_POST['add'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
- 
+
 
 
   <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notonastaliqurdudraft.css' type='text/css' />
@@ -61,8 +63,6 @@ if (isset($_POST['add'])) {
 
   <link rel="shortcut icon" href="image/logo.ico" type="image/x-icon" />
 
-
-  <!-------------------------------------------------------------------------->
 
 </head>
 
@@ -89,7 +89,7 @@ if (isset($_POST['add'])) {
                   echo "<option value='" . $row['event_ID'] . "'>" . $row['name_Event'] . "</option>";
                   ?>
                   <?php endwhile;?>
-     
+
                 </select>
               </div>
             </div>
@@ -98,7 +98,7 @@ if (isset($_POST['add'])) {
               <div class="form-group form-group-lg">
                  <label for="eventName" class="control-label"> اسم الحدث الفرعي</label>
                 <select class="form-control" id="SubEventName" name="SubEventName" >
-                 
+
                 </select>
               </div>
             </div>
@@ -118,7 +118,7 @@ if (isset($_POST['add'])) {
                   required>
                   </div>
                  </div>
-              
+
            <a  href="/tactic/managePrize.php"  class="bodyform btn btn-nor-danger btn-sm">رجوع</a>
             <input type="submit" value="إضافة" name="add" class="btn btn-nor-primary btn-lg enable-overlay">
 
@@ -129,23 +129,20 @@ if (isset($_POST['add'])) {
     </div>
   </div>
   </div>
- 
+
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 
 <script>
    function change_event(){
- 
+
    var  xmlhttp=new XMLHttpRequest();//
     xmlhttp.open("GET","addajaxsub.php?Eventname="+document.getElementById("eventName").value,false);
     xmlhttp.send(null);
-    
-    document.getElementById("SubEventName").innerHTML=xmlhttp.responseText;
-   
 
+    document.getElementById("SubEventName").innerHTML=xmlhttp.responseText;
 
     }
-
 </script>
 
   <!-- end of  register inputs -->

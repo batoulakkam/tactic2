@@ -1,31 +1,16 @@
 <?php
-require_once('php/connectTosql.php');
-$Eventname=$_GET["Eventname"];
-$subeEventId=$_GET["subeEventId"];
+require_once 'php/connectTosql.php';
+// i هذان السطران للتحقق من ان البيانات المرسلة ارقام فقط
+$Eventname   = filter_var($_GET["Eventname"], FILTER_SANITIZE_NUMBER_INT);
+$subeEventId = filter_var($_GET['subid'], FILTER_SANITIZE_NUMBER_INT);
+// i كويري لجلب معلومات الحدث الفرعي 
+echo "sub ", $subeEventId;
+$query = mysqli_query($con, "SELECT subevent_ID, nameSubEvent FROM subevent WHERE event_ID =$Eventname");
 
-if ($Eventname!=""){
-$query = mysqli_query($con, "SELECT subevent_ID, nameSubEvent FROM subevent WHERE event_ID =$Eventname");/////???
+while ($row = mysqli_fetch_array($query)) {?>
 
-while ($row = mysqli_fetch_array($query))
-{
-    if ($subeEventId  ==""){
-        echo "<option value=' '  selected='selected' > اختيار</option>";
-    }else{
-
-    if ($subeEventId  == $row['subevent_ID'] ) {
-                   
-        echo "<option value='" . $row['subevent_ID'] . "'  selected='selected' >"; echo $row["nameSubEvent"]  ; echo "</option>";}
-
-    echo "<option value='".$row['subevent_ID']."'>";  echo $row["nameSubEvent"]  ; echo "</option>";
-
-}// end else
-}
+<option <?php echo ($row['subevent_ID'] == $subeEventId ? "selected='selected'" : '') ?> value="<?php echo $row['subevent_ID']; ?>"
+   ><?php echo $row["nameSubEvent"]; ?></option>
 
 
-
-}//end of 
-
-   
-
-
-?>
+<?php }?>
